@@ -1,0 +1,42 @@
+<ion-app>
+  <ion-menu side="start" menuId="first" contentId="content1">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item [routerLink]="['/info/newsstart']" routerDirection="forward">
+            <!-- <ion-icon name="home" slot="start" style="color: white;"></ion-icon> -->
+            <ion-label>HOME</ion-label>
+          </ion-item>
+          <!-- <ion-item [routerLink]="['/videos']" routerDirection="forward">
+           
+            <ion-label>VIDEOS</ion-label>
+          </ion-item> -->
+          <ion-item [routerLink]="['/playerlist']" routerDirection="forward">
+            <!-- <ion-icon name="chatboxes" slot="start" style="color: white;"></ion-icon> -->
+            <ion-label>PLAYERS</ion-label>
+          </ion-item>
+          <ion-item [routerLink]="['/aboutus']" routerDirection="forward">
+            <!-- <ion-icon name="person" slot="start" style="color: white;"></ion-icon> -->
+            <ion-label>ABOUT US</ion-label>
+          </ion-item>
+          <!-- <ion-item routerDirection="forward">
+      <ion-icon name="person" slot="start" style="color: white;"></ion-icon>
+      <ion-label>ContactUs</ion-label> 
+  </ion-item> -->
+        </ion-menu-toggle>
+      </ion-list>
+      <!-- <ion-fab-button [routerLink]="['/account']" color="warning">
+        <ion-icon name="person"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="showHelpDialog()" color="danger">
+        <ion-icon name="logo-youtube"></ion-icon>
+      </ion-fab-button> -->
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="content1"></ion-router-outlet>
+</ion-app>

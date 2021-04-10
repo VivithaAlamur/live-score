@@ -1,0 +1,7 @@
+{
+  "name": "StumpsAndBails",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

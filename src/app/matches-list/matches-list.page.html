@@ -1,0 +1,12 @@
+<div class="matches-wrapper">
+  <button type="button" class="btn match-btn" (click)="addNewMatches()">Add New Match</button>
+  <table class="table">
+    <tbody>
+      <tr *ngFor="let match of matchesList">
+        <td>{{match.name}}</td>
+        <td>{{match.status}}</td>
+        <td><button  class="btn start-btn pt-1 pb-1">Start</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

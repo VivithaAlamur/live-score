@@ -1,0 +1,22 @@
+.match-wrapper {
+    input {
+        border: 1px solid black;
+    }
+    h4 {
+        padding-left: 1rem;
+    }
+}
+.toss-wrapper {
+    select {
+        background-color: black;
+        color: white;
+    }
+}
+.field-wrapper {
+    max-width: 99vh;
+    overflow-y: auto;
+    h6{
+        margin-left: 1rem;
+    }
+}
+
