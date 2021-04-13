@@ -1,9 +1,3 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { StorageService } from '../services/storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { Observable } from 'rxjs';
 export interface SandBResponse {
   Data: any;
   StatusCode: string;

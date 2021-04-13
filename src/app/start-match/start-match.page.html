@@ -4,7 +4,8 @@
       <h4 class=" text-dark font-weight-bold">FIELD</h4>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
         <ion-label for="matchName" class=" font-weight-bold">Match Name</ion-label>
-        <input type="text" class="form-control form-control-sm" id="matchName" placeholder="Enter Match Name">
+        <input type="text" class="form-control form-control-sm" id="matchName" placeholder="Enter Match Name"
+          [(ngModel)]="creatematchForm.Matchname">
       </div>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
         <ion-label for="time" class=" font-weight-bold">Time</ion-label>
@@ -12,28 +13,55 @@
       </div>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
         <ion-label for="startDate" class=" font-weight-bold">Start Date</ion-label>
-        <input type="text" class="form-control form-control-sm" id="startDate" placeholder="Enter Start Date">
+        <input type="date" class="form-control form-control-sm" id="startDate" placeholder="Enter Start Date"
+          [(ngModel)]="creatematchForm.PlayDate">
       </div>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 border-bottom">
         <ion-label for="endDate" class=" font-weight-bold">End Date</ion-label>
-        <input type="text" class="form-control form-control-sm" id="endDate" placeholder="Enter End Date">
+        <input type="date" class="form-control form-control-sm" id="endDate" placeholder="Enter End Date">
       </div>
       <h4 class=" text-dark font-weight-bold">Select Teams</h4>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
-        <ion-label for="teama" class=" font-weight-bold">Team A Name</ion-label>
-        <input type="text" class="form-control form-control-sm" id="teama" placeholder="Enter Team A Name">
+        <ion-label  class=" font-weight-bold">Team A Name</ion-label>
+        <input type="text" class="form-control form-control-sm"  placeholder="Enter Team A Name"
+          [(ngModel)]="creatematchForm.Team1">
       </div>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
-        <ion-label for="teamb" class=" font-weight-bold">Team B Name</ion-label>
-        <input type="text" class="form-control form-control-sm" id="teamb" placeholder="Enter Team B Name">
+        <ion-label  class=" font-weight-bold">Team B Name</ion-label>
+        <input type="text" class="form-control form-control-sm"  placeholder="Enter Team B Name"
+          [(ngModel)]="creatematchForm.Team2">
       </div>
       <div class="col-sm-3 text-center m-1">
         <ion-button type="button" color="dark" size="default" (click)="isFirst=false;isSecond=true">Next</ion-button>
       </div>
 
     </div>
-    <!-- // for the match  -->
-    <div class="toss-wrapper " *ngIf="isSecond">
+    <!-- players selection start from here -->
+    <div class="field-wrapper" *ngIf="isSecond ">
+      <header class=" mt-3 mb-2 ">
+        <h4 class="text-center">FIELD</h4>
+        <h6>Team A Players</h6>
+      </header>
+      <ng-container *ngFor="let playeraA of creatematchForm.playersListA">
+        <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
+          <input type="text" class="form-control form-control-sm" placeholder={{playeraA.name}} [(ngModel)]="playeraA.PlayerName">
+        </div>
+      </ng-container>
+      <header class="mt-3 border-top border-dark pt-2">
+        <h6>Team B Players</h6>
+      </header>
+      <ng-container *ngFor="let playerB of creatematchForm.playersListB">
+        <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
+          <input type="text" class="form-control form-control-sm" placeholder={{playerB.name}} [(ngModel)]="playerB.PlayerName">
+        </div>
+      </ng-container>
+      <div class="text-center mt-4">
+        <button type="button" class="btn btn-primary"
+          (click)="isFirst=false;isSecond=false;isThree=true;createMatch()">Submit</button>
+      </div>
+    </div>
+    <!-- toss related section start from here -->
+    <div class="toss-wrapper " *ngIf="isThree">
       <header class="border-bottom border-dark mt-3 mb-3 pb-2 text-center">
         <h4>HYD vs BAN</h4>
         <p>Ground Name</p>
@@ -56,30 +84,8 @@
         </select>
       </div>
       <div class="text-center mt-4">
-          <ion-button type="button" color="dark" size="default" (click)="isFirst=false;isSecond=false;isThree=true">Next</ion-button>
-         </div>
-    </div>
-    <!-- field-wrapper -->
-    <div class="field-wrapper" *ngIf="isThree">
-      <header class=" mt-3 mb-2 ">
-        <h4 class="text-center">FIELD</h4>
-        <h6>Team A Players</h6>
-      </header>
-      <ng-container *ngFor="let player of playersList">
-        <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
-          <input type="text" class="form-control form-control-sm" placeholder={{player.name}}>
-        </div>
-      </ng-container>
-      <header class="mt-3 border-top border-dark pt-2">
-        <h6>Team B Players</h6>
-      </header>
-      <ng-container *ngFor="let player of playersList">
-        <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
-          <input type="text" class="form-control form-control-sm" placeholder={{player.name}}>
-        </div>
-      </ng-container>
-      <div class="text-center mt-4">
-        <ion-button type="button" + color="dark"></ion-button>
+        <ion-button type="button" color="dark" size="default">Next
+        </ion-button>
       </div>
     </div>
   </ion-grid>
