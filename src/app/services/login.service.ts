@@ -25,4 +25,13 @@ export class LoginService {
   public createMatch(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'Savematchdata', body);
   }
+  public updateToss(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'Tosswinnerteam', body);
+  }
+  public getPlayerData(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'GetPlayerData', body);
+  }
+  public Savebatbowlhistory(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'Savebatbowlhistory', body);
+  }
 }

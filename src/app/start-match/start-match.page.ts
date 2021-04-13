@@ -12,6 +12,7 @@ export class StartMatchPage implements OnInit {
   isSecond = false;
   isThree = false;
   creatematchForm: any;
+  tossWinned: any;
   constructor(
     private loginService: LoginService
   ) { }
@@ -116,7 +117,6 @@ export class StartMatchPage implements OnInit {
 
   }
   createMatch() {
-    console.log(this.creatematchForm);
     const formData = new FormData();
     if (this.creatematchForm.playersListA && this.creatematchForm.playersListA.length) {
       this.creatematchForm.playersListA.map(playerA => {
@@ -136,6 +136,38 @@ export class StartMatchPage implements OnInit {
     formData.append('UserId', this.creatematchForm.UserId);
     formData.append('Players', players.toString())
     this.loginService.createMatch(formData).subscribe(async response => {
+      console.log(response)
+    });
+  }
+  updateToss() {
+    const formData = new FormData();
+    formData.append('MTID', '1');
+    formData.append('Tosswinner', this.tossWinned);
+    this.loginService.updateToss(formData).subscribe(async response => {
+      console.log(response)
+    });
+  }
+  getPlayerData() {
+    const formData = new FormData();
+    formData.append('MTID', '1');
+    formData.append('TeamName', '');
+    this.loginService.getPlayerData(formData).subscribe(async response => {
+      console.log(response)
+    });
+  }
+  Savebatbowlhistory() {
+    const formData = new FormData();
+    formData.append('TeamID', '');
+    formData.append('MatchID', '');
+    formData.append('playerID', '');
+    formData.append('Totalruns', '');
+    formData.append('BatWickets', '');
+    formData.append('currentover', '');
+    formData.append('BatRemarks', '');
+    formData.append('BowlRuns', '');
+    formData.append('BowlWickets', '');
+    formData.append('BowlRemarks', '');
+    this.loginService.Savebatbowlhistory(formData).subscribe(async response => {
       console.log(response)
     });
   }
