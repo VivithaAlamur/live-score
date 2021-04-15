@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class StartMatchPage implements OnInit {
   creatematchForm: any;
   tossWinned: any;
   constructor(
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router:Router
   ) { }
   ngOnInit() {
     this.creatematchForm = {
@@ -128,12 +130,13 @@ export class StartMatchPage implements OnInit {
         playerB.TeamName = this.creatematchForm.Team2
       });
     }
-    const players = [...this.creatematchForm.playersListA, ...this.creatematchForm.playersListB]
+    const players = JSON.stringify([...this.creatematchForm.playersListA, ...this.creatematchForm.playersListB]);
     formData.append('Matchname', this.creatematchForm.Matchname);
     formData.append('Team1', this.creatematchForm.Team1);
     formData.append('Team2', this.creatematchForm.Team2);
     formData.append('PlayDate', this.creatematchForm.PlayDate);
-    formData.append('UserId', this.creatematchForm.UserId);
+    formData.append('UserId', '123');
+    //formData.append('UserId', this.creatematchForm.UserId);
     formData.append('Players', players.toString())
     this.loginService.createMatch(formData).subscribe(async response => {
       console.log(response)
@@ -145,6 +148,9 @@ export class StartMatchPage implements OnInit {
     formData.append('Tosswinner', this.tossWinned);
     this.loginService.updateToss(formData).subscribe(async response => {
       console.log(response)
+      if(response){
+        this.router.navigate(['/preview'])
+      }
     });
   }
   getPlayerData() {

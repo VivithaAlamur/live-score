@@ -16,7 +16,11 @@ const routes: Routes = [
   {
     path: 'start-match',
     loadChildren: () => import('./start-match/start-match.module').then( m => m.StartMatchPageModule)
+  },  {
+    path: 'preview',
+    loadChildren: () => import('./preview/preview.module').then( m => m.PreviewPageModule)
   }
+
 ];
 
 @NgModule({

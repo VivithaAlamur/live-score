@@ -34,4 +34,8 @@ export class LoginService {
   public Savebatbowlhistory(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'Savebatbowlhistory', body);
   }
+  public getteamsdatabymatchid(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'getteamsdatabymatchid', body);
+  }
+  
 }
