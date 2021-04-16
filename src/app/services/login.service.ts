@@ -11,6 +11,7 @@ export class LoginService {
   Url2 = 'http://sandbsignalrapi.azurewebsites.net/api/LiveScore/Login';
   baseUrl = 'https://gamestatsapiprod.azurewebsites.net/api/';
   liveScoreUrl="http://snadblivescoreappapi.azurewebsites.net/api/LiveScore/";
+  scoreBoardUrl='http://snadblivescoreappapi.azurewebsites.net/api/Prediction/';
   public loginForMatches(body: ILoginMatches): Observable<ILoginResponse> {
     const formData = new FormData();
     formData.append('Emailid', body.Emailid);
@@ -29,13 +30,18 @@ export class LoginService {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'Tosswinnerteam', body);
   }
   public getPlayerData(body: any): Observable<any> {
-    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'GetPlayerData', body);
+    return this.httpclient.post<ILoginResponse>(this.scoreBoardUrl+'GetPlayerData', body);
   }
   public Savebatbowlhistory(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'Savebatbowlhistory', body);
   }
-  public getteamsdatabymatchid(body: any): Observable<any> {
-    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'getteamsdatabymatchid', body);
+  public  getTeamsDatabymatchID(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.scoreBoardUrl+'GetTeamsDatabymatchID', body);
   }
-  
+  public gettosswinnerbatbowl(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.scoreBoardUrl+'Gettosswinnerbatbowl', body);
+  }
+  public Tosswinnerteam(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl+'Tosswinnerteam', body);
+  }
 }
