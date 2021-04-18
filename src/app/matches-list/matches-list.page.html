@@ -5,8 +5,8 @@
       <tr *ngFor="let match of matchesList">
         <td>{{match.Matchname}}</td>
         <td>{{match.MatchStatus}}</td>
-        <td><button  class="btn start-btn pt-1 pb-1">Start</button></td>
-        <td><button  class="btn start-btn pt-1 pb-1 pl-0.5">Update Live Score</button></td>
+        <td (click)="startMatch(match)"><button class="btn start-btn pt-1 pb-1">Start</button></td>
+        <td><button class="btn start-btn pt-1 pb-1 pl-0.5">Update Live Score</button></td>
       </tr>
     </tbody>
   </table>
