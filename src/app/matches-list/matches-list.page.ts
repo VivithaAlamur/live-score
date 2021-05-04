@@ -34,4 +34,7 @@ export class MatchesListPage implements OnInit {
     this.router.navigate(['/start-match'], { queryParams: { isUpdate: true } });
     this.loginService.setMatchDetails(JSON.stringify(match));
   }
+  updatelivescore() {
+    this.router.navigate(['/preview']);
+  }
 }

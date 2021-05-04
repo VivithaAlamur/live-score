@@ -7,11 +7,7 @@
         <input type="text" class="form-control form-control-sm" id="matchName" placeholder="Enter Match Name" [(ngModel)]="createMatchForm.Matchname">
       </div>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
-        <ion-label for="time" class=" font-weight-bold">Time</ion-label>
-        <input type="text" class="form-control form-control-sm" id="time" placeholder="Enter Time">
-      </div>
-      <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
-        <ion-label for="PlayDate" class=" font-weight-bold">Play Date</ion-label>
+        <ion-label for="PlayDate" class=" font-weight-bold">Match Date</ion-label>
         <input type="date" class="form-control form-control-sm" id="PlayDate" placeholder="Enter Play Date" [(ngModel)]="createMatchForm.PlayDate">
       </div>
       <h4 class=" text-dark font-weight-bold">Select Teams</h4>
@@ -67,7 +63,8 @@
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
         <ion-label class=" font-weight-bold">Selected to*</ion-label>
         <select class="form-control ">
-            <option></option>
+            <option>Bat</option>
+            <option>Bowl</option>
           <option [value]="team.teams" *ngFor="let team of teams">{{team.teams}}</option>
         </select>
       </div>
