@@ -53,4 +53,10 @@ export class LoginService {
   getTeamsBasedOnMatchId(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'getTeamsBasedOnMatchId', body);
   }
+  getRecentMatchData(body: any, formData): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.scoreBoardUrl + 'getrecentmatchdata?matchid=' + body.MatchId, formData);
+  }
+  SaveMatchData(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Savematchdata', body);
+  }
 }

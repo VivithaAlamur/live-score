@@ -11,57 +11,93 @@ export class PreviewPage implements OnInit {
   bowlingPlayers = [];
   batingPlayers = [];
   matchDetails;
+  matchDetailsForBoard;
   constructor(
     private loginService: LoginService
-  ) { }
+  ) {
+    this.matchDetails = JSON.parse(this.loginService.getMatchDetails());
+
+  }
 
   ngOnInit() {
-    this.getTeamsDatabymatchID();
-    this.gettosswinnerbatbowl();
+    if (this.matchDetails) {
+      this.getRecentMatchData();
+      this.getTeamsDatabymatchID();
+      this.gettosswinnerbatbowl();
+    }
     this.matchDetails = {
       bowlingTeam: '',
       batingteam: ''
     }
   }
   getTeamsDatabymatchID() {
-    const formdata = new FormData();
-    formdata.append('MTID', '3');
-    this.loginService.getTeamsDatabymatchID(formdata).subscribe(data => {
+    const formData = new FormData();
+    formData.append('MTID', this.matchDetails.MatchId);
+    this.loginService.getTeamsDatabymatchID(formData).subscribe(data => {
     });
   }
   gettosswinnerbatbowl() {
-    const formdata = new FormData();
-    formdata.append('MTID', '22');
-    this.loginService.gettosswinnerbatbowl(formdata).subscribe(response => {
+    const formData = new FormData();
+    formData.append('MTID', this.matchDetails.MatchId);
+    this.loginService.gettosswinnerbatbowl(formData).subscribe(response => {
       this.teamDetails = response.Data;
 
     });
   }
   getPlayersdata() {
-    const formdata = new FormData();
-    formdata.append('MTID', '22');
-    this.loginService.getPlayerData(formdata).subscribe(response => {
+    const formData = new FormData();
+    formData.append('MTID', this.matchDetails.MatchId);
+    this.loginService.getPlayerData(formData).subscribe(response => {
       //  this.playersList=response.Data;
 
     });
   }
   getbowlingTeam() {
-    const formdata = new FormData();
-    formdata.append('TeamName', this.matchDetails.bowlingTeam);
-    formdata.append('MTID', '1');
-    this.loginService.getPlayerData(formdata).subscribe(response => {
+    const formData = new FormData();
+    formData.append('TeamName', this.matchDetails.bowlingTeam);
+    formData.append('MTID', this.matchDetails.MatchId);
+    this.loginService.getPlayerData(formData).subscribe(response => {
       this.bowlingPlayers = response.Data;
 
     });
 
   }
   getbattingTeam() {
-    const formdata = new FormData();
-    formdata.append('TeamName', this.matchDetails.bowlingTeam);
-    formdata.append('MTID', '1');
-    this.loginService.getPlayerData(formdata).subscribe(response => {
+    const formData = new FormData();
+    formData.append('TeamName', this.matchDetails.bowlingTeam);
+    formData.append('MTID', this.matchDetails.MatchId);
+    this.loginService.getPlayerData(formData).subscribe(response => {
       this.batingPlayers = response.Data;
     });
 
+  }
+  // for getting the match details
+  getRecentMatchData() {
+    const formData = new FormData();
+    formData.append('MTID', this.matchDetails.MatchId);
+    this.loginService.getRecentMatchData(this.matchDetails, formData).subscribe(response => {
+      const matchData = response.Data;
+      if (matchData && matchData.length) {
+        this.matchDetailsForBoard = matchData[0];
+      }
+    });
+  }
+  // save match details
+  saveMatchData() {
+    const formData = new FormData();
+    formData.append('TeamID', '');
+    formData.append('MatchID', '');
+    formData.append('playerID', '');
+    formData.append('Totalruns', '');
+    formData.append('BatWickets', '');
+    formData.append('currentover', '');
+    formData.append('BatRemarks', '');
+    formData.append('BowlRuns', '');
+    formData.append('BowlWickets', '');
+    formData.append('BowlRemarks', '');
+    this.loginService.SaveMatchData(formData).subscribe(
+      response => {
+        console.log(response)
+      });
   }
 }

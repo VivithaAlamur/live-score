@@ -4,7 +4,7 @@
     <ion-grid>
       <ion-row class="ion-justify-content-between">
         <ion-col>
-          <span class="font-weight-bold">HYD</span>
+          <span class="font-weight-bold">{{matchDetailsForBoard.team1shortname}}</span>
         </ion-col>
         <ion-col class="text-right">
           <div><span class="font-weight-bold">0/0</span> (0.0)</div>
@@ -12,7 +12,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
         <ion-col>
-          <span class="font-weight-bold">BAN</span>
+          <span class="font-weight-bold">{{matchDetailsForBoard.team2ShortName}}</span>
         </ion-col>
         <ion-col class="text-right">
           <span>YET to BAT</span>
@@ -20,7 +20,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-between ">
         <ion-col>
-          <span>Batsman 1</span>
+          <span>{{matchDetailsForBoard.batsman1name}}</span>
         </ion-col>
         <ion-col class="ion-text-right">
           <span>0*</span>
@@ -28,7 +28,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
         <ion-col>
-          <span>Batsman 2</span>
+          <span>{{matchDetailsForBoard.batsman2name}}</span>
         </ion-col>
         <ion-col class="ion-text-right">
           <span>0</span>
@@ -184,13 +184,11 @@
         </select>
       </div>
       <div text-left="">
-        <ion-button color="success" (click)="login()"> Submit</ion-button>
-        <ion-button color="dark" size="outline" (click)="login()"> Innings complete </ion-button>
-        <ion-button color="dark" size="small+outline" (click)="login()"> UNDO </ion-button>
+        <ion-button color="success" (click)="saveMatchData()"> Submit</ion-button>
+        <ion-button color="dark" size="outline"> Innings complete </ion-button>
+        <ion-button color="dark" size="small+outline"> UNDO </ion-button>
       </div>
-      <!-- </div> -->
     </ion-grid>
   </ion-content>
 </ion-app>
-<!-- </div> -->
 <!-- The core Firebase JS SDK is always required and must be listed first -->
