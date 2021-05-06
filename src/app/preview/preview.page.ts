@@ -9,6 +9,7 @@ import { LoginService } from '../services/login.service';
 export class PreviewPage implements OnInit {
   teamDetails = [];
   bowlingPlayers = [];
+  batingPlayers = [];
   matchDetails;
   constructor(
     private loginService: LoginService
@@ -51,6 +52,15 @@ export class PreviewPage implements OnInit {
     this.loginService.getPlayerData(formdata).subscribe(response => {
       this.bowlingPlayers = response.Data;
 
+    });
+
+  }
+  getbattingTeam() {
+    const formdata = new FormData();
+    formdata.append('TeamName', this.matchDetails.bowlingTeam);
+    formdata.append('MTID', '1');
+    this.loginService.getPlayerData(formdata).subscribe(response => {
+      this.batingPlayers = response.Data;
     });
 
   }

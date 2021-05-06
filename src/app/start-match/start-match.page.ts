@@ -132,7 +132,6 @@ export class StartMatchPage implements OnInit {
         }
       ]
     };
-    this.getTeamsDatabymatchID();
   }
   createMatch() {
     const formData = new FormData();
@@ -176,36 +175,35 @@ export class StartMatchPage implements OnInit {
         console.log(response)
       });
   }
-  Savebatbowlhistory() {
-    const formData = new FormData();
-    formData.append('TeamID', '');
-    formData.append('MatchID', '');
-    formData.append('playerID', '');
-    formData.append('Totalruns', '');
-    formData.append('BatWickets', '');
-    formData.append('currentover', '');
-    formData.append('BatRemarks', '');
-    formData.append('BowlRuns', '');
-    formData.append('BowlWickets', '');
-    formData.append('BowlRemarks', '');
-    this.loginService.Savebatbowlhistory(formData).subscribe(
-      response => {
-        console.log(response)
-      });
-  }
+  // Savebatbowlhistory() {
+  //   const formData = new FormData();
+  //   formData.append('TeamID', '');
+  //   formData.append('MatchID', '');
+  //   formData.append('playerID', '');
+  //   formData.append('Totalruns', '');
+  //   formData.append('BatWickets', '');
+  //   formData.append('currentover', '');
+  //   formData.append('BatRemarks', '');
+  //   formData.append('BowlRuns', '');
+  //   formData.append('BowlWickets', '');
+  //   formData.append('BowlRemarks', '');
+  //   this.loginService.Savebatbowlhistory(formData).subscribe(
+  //     response => {
+  //       console.log(response)
+  //     });
+  // }
   getTeamsBasedOnMatchId() {
     const formData = new FormData();
-    formData.append('MTID', 3 || this.matchDetails.MatchID);
+    formData.append('MTID', this.matchDetails.MatchId);
     this.loginService.getTeamsDatabymatchID(formData).subscribe(
       response => {
         this.teams = response.Data;
       });
-
   }
-  getTeamsDatabymatchID() {
-    const formdata = new FormData();
-    formdata.append('MTID', '3');
-    this.loginService.getTeamsDatabymatchID(formdata).subscribe(data => {
-    });
-  }
+  // getTeamsDatabymatchID() {
+  //   const formdata = new FormData();
+  //   formdata.append('MTID', this.matchDetails.MatchId);
+  //   this.loginService.getTeamsDatabymatchID(formdata).subscribe(data => {
+  //   });
+  // }
 }

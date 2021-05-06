@@ -69,19 +69,15 @@
       <div class="d-flex flex-column justify-content-center align-items-center">
         <ion-label class="m-0 p-2">Striker</ion-label>
         <div class="d-flex align-items-center justify-content-center">
-          <input type="radio" name="Batsman" value="1"/>
+          <input type="radio" name="Batsman" value="1" />
           <select class="ml-2 form-control form-control-sm">
-            <option>Batsman1</option>
-            <option>Batsman2</option>
-            <option>Batsman3</option>
+            <option *ngFor="let bating batingPlayers">{{bating.PlayerName}}</option>
           </select>
         </div>
         <div class="d-flex align-items-center justify-content-center">
-          <input type="radio"  name="Batsman" value="2" />
+          <input type="radio" name="Batsman" value="2" />
           <select class="ml-2 form-control form-control-sm ">
-            <option>Batsman2</option>
-            <option>Batsman1</option>
-            <option>Batsman3</option>
+              <option *ngFor="let bating batingPlayers">{{bating.PlayerName}}</option>
           </select>
         </div>
       </div>
@@ -160,7 +156,7 @@
       </div>
       <div class="d-flex justify-content-center mt-2">
         <ion-label class="mr-2 font-weight-bold">Bowling Team</ion-label>
-        <select class="w-50 select form-control form-control-sm"  (change)="getbowlingTeam()" [(ngModel)]="matchDetails.bowlingTeam">
+        <select class="w-50 select form-control form-control-sm" (change)="getbowlingTeam()" [(ngModel)]="matchDetails.bowlingTeam">
           <option></option>
           <option *ngFor="let teamDetail of teamDetails" [value]="teamDetail.team">{{teamDetail.team}}</option>
         </select>
@@ -189,7 +185,7 @@
       </div>
       <div text-left="">
         <ion-button color="success" (click)="login()"> Submit</ion-button>
-      <ion-button color="dark" size="outline" (click)="login()"> Innings complete </ion-button>
+        <ion-button color="dark" size="outline" (click)="login()"> Innings complete </ion-button>
         <ion-button color="dark" size="small+outline" (click)="login()"> UNDO </ion-button>
       </div>
       <!-- </div> -->
@@ -197,4 +193,4 @@
   </ion-content>
 </ion-app>
 <!-- </div> -->
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
