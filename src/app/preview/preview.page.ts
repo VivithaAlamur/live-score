@@ -11,7 +11,7 @@ export class PreviewPage implements OnInit {
   bowlingPlayers = [];
   batingPlayers = [];
   matchDetails;
-  matchDetailsForBoard;
+  matchDetailsForBoard = {};
   specificMatchTeams = [];
   constructor(
     private loginService: LoginService
@@ -26,9 +26,39 @@ export class PreviewPage implements OnInit {
       this.getSpecificMatchTeams();
       this.gettosswinnerbatbowl();
     }
+    this.matchDetailsForBoard['activeBating1'] = {
+      isSelected: false,
+      batsman1name: '',
+      score: 0
+    }
+    this.matchDetailsForBoard['activeBating2'] = {
+      isSelected: false,
+      batsman2name: '',
+      score: 0
+    }
 
   }
+  selectedBatchMen(value) {
+    if (value === '1') {
+      this.matchDetailsForBoard['activeBating1'].isSelected = true;
+      this.matchDetailsForBoard['activeBating2'].isSelected = false;
 
+    } else {
+      this.matchDetailsForBoard['activeBating2'].isSelected = true;
+      this.matchDetailsForBoard['activeBating1'].isSelected = false;
+
+    }
+  }
+  scoreUpdate(value) {
+    if (this.matchDetailsForBoard['activeBating1'].isSelected) {
+      const previousScore = { ...this.matchDetailsForBoard['activeBating1'] };
+      this.matchDetailsForBoard['activeBating1'].score = previousScore.score + Number(value)
+    } else {
+      const previousScore = this.matchDetailsForBoard['activeBating2'].score;
+      this.matchDetailsForBoard['activeBating2'].score = previousScore + Number(value)
+
+    }
+  }
   gettosswinnerbatbowl() {
     const formData = new FormData();
     formData.append('MTID', this.matchDetails.MatchId);
@@ -38,10 +68,13 @@ export class PreviewPage implements OnInit {
         this.teamDetails.map(team => {
           if (team.SelectedTo && (team.SelectedTo === 'bat' || team.SelectedTo === 'BAT')) {
             this.matchDetails.battingTeam = team.team;
+            this.matchDetailsForBoard['team1shortname'] = team.team + '(Bating)';
             this.getbattingTeam();
           }
           if (team.SelectedTo && (team.SelectedTo === 'BOWL' || team.SelectedTo === 'bowl')) {
             this.matchDetails.bowlingTeam = team.team;
+            this.matchDetailsForBoard['team2ShortName'] = team.team + '(Bowling)';
+
             this.getbowlingTeam()
           }
         })
