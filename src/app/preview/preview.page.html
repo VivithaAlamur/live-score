@@ -4,7 +4,7 @@
     <ion-grid>
       <ion-row class="ion-justify-content-between">
         <ion-col>
-          <span class="font-weight-bold">{{matchDetailsForBoard.team1shortname}}</span>
+          <span class="font-weight-bold">{{matchDetailsForBoard?.team1shortname}}</span>
         </ion-col>
         <ion-col class="text-right">
           <div><span class="font-weight-bold">0/0</span> (0.0)</div>
@@ -12,7 +12,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
         <ion-col>
-          <span class="font-weight-bold">{{matchDetailsForBoard.team2ShortName}}</span>
+          <span class="font-weight-bold">{{matchDetailsForBoard?.team2ShortName}}</span>
         </ion-col>
         <ion-col class="text-right">
           <span>YET to BAT</span>
@@ -20,7 +20,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-between ">
         <ion-col>
-          <span>{{matchDetailsForBoard.batsman1name}}</span>
+          <span>{{matchDetailsForBoard?.batsman1name}}</span>
         </ion-col>
         <ion-col class="ion-text-right">
           <span>0*</span>
@@ -28,7 +28,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
         <ion-col>
-          <span>{{matchDetailsForBoard.batsman2name}}</span>
+          <span>{{matchDetailsForBoard?.batsman2name}}</span>
         </ion-col>
         <ion-col class="ion-text-right">
           <span>0</span>
@@ -63,21 +63,21 @@
         <ion-label class="mr-2 font-weight-bold">Batting Team</ion-label>
         <select class="w-50 select form-control form-control-sm" (change)="getbattingTeam()" [(ngModel)]="matchDetails.battingTeam">
           <option></option>
-          <option *ngFor="let team of  teamDetails" [value]="team.team">{{team.team}}</option>
+          <option *ngFor="let team of  specificMatchTeams" [value]="team.teams">{{team.teams}}</option>
         </select>
       </div>
       <div class="d-flex flex-column justify-content-center align-items-center">
         <ion-label class="m-0 p-2">Striker</ion-label>
         <div class="d-flex align-items-center justify-content-center">
-          <input type="radio" name="Batsman" value="1" />
+          <input type="radio" name="Batsman" value="true" />
           <select class="ml-2 form-control form-control-sm">
-            <option *ngFor="let bating batingPlayers">{{bating.PlayerName}}</option>
+            <option *ngFor="let bating of batingPlayers">{{bating.PlayerName}}</option>
           </select>
         </div>
         <div class="d-flex align-items-center justify-content-center">
-          <input type="radio" name="Batsman" value="2" />
+          <input type="radio" name="Batsman" value="true" />
           <select class="ml-2 form-control form-control-sm ">
-              <option *ngFor="let bating batingPlayers">{{bating.PlayerName}}</option>
+              <option *ngFor="let bating of batingPlayers">{{bating.PlayerName}}</option>
           </select>
         </div>
       </div>
@@ -158,7 +158,7 @@
         <ion-label class="mr-2 font-weight-bold">Bowling Team</ion-label>
         <select class="w-50 select form-control form-control-sm" (change)="getbowlingTeam()" [(ngModel)]="matchDetails.bowlingTeam">
           <option></option>
-          <option *ngFor="let teamDetail of teamDetails" [value]="teamDetail.team">{{teamDetail.team}}</option>
+          <option *ngFor="let teamDetail of specificMatchTeams" [value]="teamDetail.teams">{{teamDetail.teams}}</option>
         </select>
       </div>
       <div class="d-flex mt-3 justify-content-center align-items-center">
@@ -170,17 +170,7 @@
       <div class="d-flex justify-content-center mt-2">
         <ion-label class="mr-2 font-weight-bold">Fieler* </ion-label>
         <select class="w-50 select form-control form-control-sm">
-          <option> Player A </option>
-          <option> Player B</option>
-          <option> Player C</option>
-          <option> Player D</option>
-          <option> Player E</option>
-          <option> Player F</option>
-          <option> Player G</option>
-          <option> Player H</option>
-          <option> Player I</option>
-          <option> Player J</option>
-          <option> Player K</option>
+          <option *ngFor="let player of bowlingPlayers"> {{player.PlayerName}} </option>
         </select>
       </div>
       <div text-left="">

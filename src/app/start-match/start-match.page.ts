@@ -154,6 +154,7 @@ export class StartMatchPage implements OnInit {
     //formData.append('UserId', this.createMatchForm.UserId);
     formData.append('Players', players.toString())
     this.loginService.createMatch(formData).subscribe(response => {
+      this.router.navigate(['/matches-list'])
     });
   }
   updateToss() {
