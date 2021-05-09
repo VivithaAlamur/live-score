@@ -7,7 +7,7 @@
           <span class="font-weight-bold">{{matchDetailsForBoard?.team1shortname}}</span>
         </ion-col>
         <ion-col class="text-right">
-          <div><span class="font-weight-bold">0/0</span> (0.0)</div>
+          <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}</span> (0.0)</div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
@@ -70,14 +70,14 @@
         <ion-label class="m-0 p-2">Striker</ion-label>
         <div class="d-flex align-items-center justify-content-center">
           <input type="radio" name="Batsman" value="true" (click)="selectedBatchMen('1')" />
-          <select class="ml-2 form-control form-control-sm" [(ngModel)]="matchDetailsForBoard.activeBating1.batsman1name">
-            <option *ngFor="let bating of batingPlayers" [value]="bating.PlayerName">{{bating.PlayerName}}</option>
+          <select class="ml-2 form-control form-control-sm" [(ngModel)]="activeBating" (change)="activeBatingPlayerChanged()">
+            <option *ngFor="let bating of batingPlayers" [ngValue]="bating">{{bating.PlayerName}}</option>
           </select>
         </div>
         <div class="d-flex align-items-center justify-content-center">
           <input type="radio" name="Batsman" value="true" (click)="selectedBatchMen('2')" />
-          <select class="ml-2 form-control form-control-sm " [(ngModel)]="matchDetailsForBoard.activeBating2.batsman2name">
-              <option *ngFor="let bating of batingPlayers" [value]="bating.PlayerName">{{bating.PlayerName}}</option>
+          <select class="ml-2 form-control form-control-sm " [(ngModel)]="activeBating2" (change)="activeBatingPlayer2Changed()">
+              <option *ngFor="let bating of batingPlayers" [ngValue]="bating">{{bating.PlayerName}}</option>
           </select>
         </div>
       </div>
@@ -85,32 +85,32 @@
         <ion-label class="mr-2 font-weight-bold">Ball Score*</ion-label>
         <div class="d-flex flex-column">
           <ul class="radio-toolbar d-flex ion-justify-content-between">
-            <li class="mr-2" (click)="scoreUpdate(0)">
-              <input type="radio" id="zero" name="scrore" value="0" checked>
+            <li class="mr-2">
+              <input type="radio" id="zero" name="scrore" value="0" checked (click)="scoreUpdate(0)">
               <label for="zero">0</label>
             </li>
-            <li class="mr-2" (click)="scoreUpdate(1)">
-              <input type="radio" id="one" name="scrore" value="1">
+            <li class="mr-2">
+              <input type="radio" id="one" name="scrore" value="1" (click)="scoreUpdate(1)">
               <label for="one">1</label>
             </li>
-            <li class="mr-2" (click)="scoreUpdate(2)">
-              <input type="radio" id="two" name="scrore" value="2">
+            <li class="mr-2">
+              <input type="radio" id="two" name="scrore" value="2" (click)="scoreUpdate(2)">
               <label for="two">2</label>
             </li>
-            <li class="mr-2" (click)="scoreUpdate(3)">
-              <input type="radio" id="three" name="scrore" value="3">
+            <li class="mr-2">
+              <input type="radio" id="three" name="scrore" value="3" (click)="scoreUpdate(3)">
               <label for="three">3</label>
             </li>
-            <li class="mr-2" (click)="scoreUpdate(4)">
-              <input type="radio" id="four" name="scrore" value="4">
+            <li class="mr-2">
+              <input type="radio" id="four" name="scrore" value="4" (click)="scoreUpdate(4)">
               <label for="four">4</label>
             </li>
-            <li class="mr-2" (click)="scoreUpdate(5)">
-              <input type="radio" id="five" name="scrore" value="5">
+            <li class="mr-2">
+              <input type="radio" id="five" name="scrore" value="5" (click)="scoreUpdate(5)">
               <label for="five">5</label>
             </li>
-            <li class="mr-2" (click)="scoreUpdate(6)">
-              <input type="radio" id="six" name="scrore" value="6">
+            <li class="mr-2">
+              <input type="radio" id="six" name="scrore" value="6" (click)="scoreUpdate(6)">
               <label for="six">6</label>
             </li>
           </ul>

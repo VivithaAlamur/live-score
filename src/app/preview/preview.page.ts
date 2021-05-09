@@ -13,6 +13,9 @@ export class PreviewPage implements OnInit {
   matchDetails;
   matchDetailsForBoard = {};
   specificMatchTeams = [];
+  activeBating;
+  activeBating2;
+  activeBowling;
   constructor(
     private loginService: LoginService
   ) {
@@ -36,6 +39,7 @@ export class PreviewPage implements OnInit {
       batsman2name: '',
       score: 0
     }
+    this.matchDetailsForBoard['batingScoreSum'] = 0;
 
   }
   selectedBatchMen(value) {
@@ -51,12 +55,50 @@ export class PreviewPage implements OnInit {
   }
   scoreUpdate(value) {
     if (this.matchDetailsForBoard['activeBating1'].isSelected) {
-      const previousScore = { ...this.matchDetailsForBoard['activeBating1'] };
-      this.matchDetailsForBoard['activeBating1'].score = previousScore.score + Number(value)
-    } else {
-      const previousScore = this.matchDetailsForBoard['activeBating2'].score;
-      this.matchDetailsForBoard['activeBating2'].score = previousScore + Number(value)
-
+      this.batingPlayers.forEach(bating => {
+        if (bating.isSelected) {
+          bating.score = bating.score + Number(value)
+          this.matchDetailsForBoard['activeBating1'].score = bating.score;
+        }
+      })
+    } else if (this.matchDetailsForBoard['activeBating2'].isSelected) {
+      this.batingPlayers.forEach(bating => {
+        if (bating.isSelected) {
+          bating.score = bating.score + Number(value)
+          this.matchDetailsForBoard['activeBating2'].score = bating.score;
+        }
+      })
+    }
+    this.sumOfBatingTeamScore();
+  }
+  activeBatingPlayerChanged() {
+    this.matchDetailsForBoard['activeBating1'].batsman1name = this.activeBating.PlayerName;
+    this.batingPlayers.forEach(bating => {
+      if (bating.PlayerID === this.activeBating.PlayerID) {
+        bating.isSelected = true;
+      } else {
+        bating.isSelected = false;
+      }
+    });
+  }
+  activeBatingPlayer2Changed() {
+    this.matchDetailsForBoard['activeBating2'].batsman2name = this.activeBating2.PlayerName;
+    this.batingPlayers.forEach(bating => {
+      if (bating.PlayerID === this.activeBating2.PlayerID) {
+        bating.isSelected = true;
+      } else {
+        bating.isSelected = false;
+      }
+    });
+  }
+  sumOfBatingTeamScore() {
+    let sum = 0;
+    if (this.batingPlayers && this.batingPlayers.length) {
+      this.batingPlayers.forEach((current) => {
+        const playerScore = current.score;
+        sum = sum + playerScore;
+      });
+      this.matchDetailsForBoard['batingScoreSum'] = sum || 0;
     }
   }
   gettosswinnerbatbowl() {
@@ -97,6 +139,7 @@ export class PreviewPage implements OnInit {
       if (this.bowlingPlayers.length) {
         this.bowlingPlayers.forEach(player => {
           player.isSelected = false;
+          player.score = 0;
         })
       }
     });
@@ -112,6 +155,7 @@ export class PreviewPage implements OnInit {
       if (this.batingPlayers.length) {
         this.batingPlayers.forEach(player => {
           player.isSelected = false;
+          player.score = 0;
         })
       }
     });
