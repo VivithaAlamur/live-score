@@ -1,5 +1,6 @@
 <div class="matches-wrapper">
   <button type="button" class="btn match-btn" (click)="addNewMatches()">Add New Match</button>
+  <div class="table-responsive">
   <table class="table">
     <tbody>
       <tr *ngFor="let match of matchesList">
@@ -10,4 +11,5 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </div>

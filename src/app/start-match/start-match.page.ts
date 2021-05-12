@@ -13,8 +13,9 @@ export class StartMatchPage implements OnInit {
   isSecond = false;
   isThree = false;
   createMatchForm: any;
-  tossWinned: any;
+  tossWinner: any;
   matchDetails;
+  SelectedTo: any;
   teams = [];
   constructor(
     private loginService: LoginService,
@@ -36,98 +37,107 @@ export class StartMatchPage implements OnInit {
   }
   ngOnInit() {
     this.createMatchForm = {
-      Matchname: null,
+      MatchName: null,
       Team1: null,
       Team2: null,
       PlayDate: null,
       UserId: null,
       playersListA: [
         {
-          name: 'Player1',
+          PlayerName: 'Player1',
           TeamName: ''
         },
         {
-          name: 'Player2',
+          PlayerName: 'Player2',
           TeamName: ''
         },
         {
-          name: 'Player3',
+          PlayerName: 'Player3',
           TeamName: ''
         }, {
-          name: 'Player4',
+          PlayerName: 'Player4',
           TeamName: ''
         },
         {
-          name: 'Player5',
+          PlayerName: 'Player5',
           TeamName: ''
         },
         {
-          name: 'Player6',
+          PlayerName: 'Player6',
           TeamName: ''
         },
         {
-          name: 'Player7',
+          PlayerName: 'Player7',
           TeamName: ''
         },
         {
-          name: 'Player8',
+          PlayerName: 'Player8',
           TeamName: ''
         },
         {
-          name: 'Player9',
+          PlayerName: 'Player9',
           TeamName: ''
         },
         {
-          name: 'Player10',
+          PlayerName: 'Player10',
           TeamName: ''
         },
         {
-          name: 'Player11',
+          PlayerName: 'Player11',
+          TeamName: ''
+        },
+        {
+          PlayerName: 'Player12',
           TeamName: ''
         }
+      
       ],
       playersListB: [
         {
-          name: 'Player1',
+          PlayerName: 'Player1',
           TeamName: ''
         },
         {
-          name: 'Player2',
+          PlayerName: 'Player2',
           TeamName: ''
         },
         {
-          name: 'Player3',
+          PlayerName: 'Player3',
           TeamName: ''
         }, {
-          name: 'Player4',
+          PlayerName: 'Player4',
           TeamName: ''
         },
         {
-          name: 'Player5',
+          PlayerName: 'Player5',
           TeamName: ''
         },
         {
-          name: 'Player6',
+          PlayerName: 'Player6',
           TeamName: ''
         },
         {
-          name: 'Player7',
+          PlayerName: 'Player7',
           TeamName: ''
         },
         {
-          name: 'Player8',
+          PlayerName: 'Player8',
           TeamName: ''
         },
         {
-          name: 'Player9',
+          PlayerName: 'Player9',
           TeamName: ''
         },
         {
-          name: 'Player10',
+          PlayerName: 'Player10',
           TeamName: ''
         },
         {
-          name: 'Player11',
+          PlayerName: 'Player11',
+          TeamName: ''
+        },
+        {
+          PlayerName: 'Player12',
           TeamName: ''
         }
       ]
@@ -146,21 +156,22 @@ export class StartMatchPage implements OnInit {
       });
     }
     const players = JSON.stringify([...this.createMatchForm.playersListA, ...this.createMatchForm.playersListB]);
-    formData.append('Matchname', this.createMatchForm.Matchname);
+    formData.append('MatchName', this.createMatchForm.MatchName);
     formData.append('Team1', this.createMatchForm.Team1);
     formData.append('Team2', this.createMatchForm.Team2);
     formData.append('PlayDate', this.createMatchForm.PlayDate);
-    formData.append('UserId', '123');
+    formData.append('UserId', '1');
     //formData.append('UserId', this.createMatchForm.UserId);
-    formData.append('Players', players.toString())
+    formData.append('players', players.toString())
     this.loginService.createMatch(formData).subscribe(response => {
       this.router.navigate(['/matches-list'])
     });
   }
   updateToss() {
     const formData = new FormData();
-    formData.append('MTID', this.matchDetails.MatchId);
-    formData.append('Tosswinner', this.tossWinned);
+    // formData.append('MTID', this.matchDetails.MatchId);
+    formData.append('Tosswinner', this.tossWinner);
+    formData.append('SelectedTo', this.SelectedTo);
     this.loginService.updateToss(formData).subscribe(response => {
       // if (response) {
       this.router.navigate(['/preview'])

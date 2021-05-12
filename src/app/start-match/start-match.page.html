@@ -3,8 +3,8 @@
     <div class="match-wrapper" *ngIf="isFirst">
       <h4 class=" text-dark font-weight-bold">FIELD</h4>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
-        <ion-label for="matchName" class=" font-weight-bold">Match Name</ion-label>
-        <input type="text" class="form-control form-control-sm" id="matchName" placeholder="Enter Match Name" [(ngModel)]="createMatchForm.Matchname">
+        <ion-label for="MatchName" class=" font-weight-bold">Match Name</ion-label>
+        <input type="text" class="form-control form-control-sm" id="MatchName" placeholder="Enter Match Name" [(ngModel)]="createMatchForm.MatchName">
       </div>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
         <ion-label for="PlayDate" class=" font-weight-bold">Match Date</ion-label>
@@ -55,14 +55,14 @@
       </header>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
         <ion-label class=" font-weight-bold">Toss Winner*</ion-label>
-        <select class="form-control" [(ngModel)]="tossWinned">
+        <select class="form-control" [(ngModel)]="tossWinner">
           <option></option>
           <option [value]="team.teams" *ngFor="let team of teams">{{team.teams}}</option>
         </select>
       </div>
       <div class="form-group col-sm-3 col-md-6 col-lg-3 ">
         <ion-label class=" font-weight-bold">Selected to*</ion-label>
-        <select class="form-control ">
+        <select class="form-control" [(ngModel)]="SelectedTo">
             <option [value]="bat">Bat</option>
             <option [value]="bowl">Bowl</option>
         </select>

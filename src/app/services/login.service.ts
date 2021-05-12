@@ -8,7 +8,7 @@ import { ILoginMatches, ILoginResponse } from '../models/stumpsbails.interfaces'
 export class LoginService {
   constructor(private httpclient: HttpClient) { }
   url = 'https://gamestatsapiprod.azurewebsites.net/api/Token/Login';
-  Url2 = 'http://sandbsignalrapi.azurewebsites.net/api/LiveScore/Login';
+  Url2 = 'http://snadblivescoreappapi.azurewebsites.net/api/LiveScore/Login';
   baseUrl = 'https://gamestatsapiprod.azurewebsites.net/api/';
   liveScoreUrl = "http://snadblivescoreappapi.azurewebsites.net/api/LiveScore/";
   scoreBoardUrl = 'http://snadblivescoreappapi.azurewebsites.net/api/Prediction/';
