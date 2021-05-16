@@ -17,6 +17,10 @@ export class StartMatchPage implements OnInit {
   matchDetails;
   SelectedTo: any;
   teams = [];
+  selectionToss = [
+    { name: 'Bat' },
+    { name: 'Bowl' }
+  ]
   constructor(
     private loginService: LoginService,
     private router: Router,
@@ -90,7 +94,7 @@ export class StartMatchPage implements OnInit {
           PlayerName: 'Player12',
           TeamName: ''
         }
-      
+
       ],
       playersListB: [
         {
@@ -140,7 +144,7 @@ export class StartMatchPage implements OnInit {
           PlayerName: 'Player12',
           TeamName: ''
         }
-      ]
+      ],
     };
   }
   createMatch() {
@@ -169,8 +173,8 @@ export class StartMatchPage implements OnInit {
   }
   updateToss() {
     const formData = new FormData();
-    // formData.append('MTID', this.matchDetails.MatchId);
-    formData.append('Tosswinner', this.tossWinner);
+    formData.append('MTID', this.matchDetails.MatchId);
+    formData.append('TossWinner', this.tossWinner);
     formData.append('SelectedTo', this.SelectedTo);
     this.loginService.updateToss(formData).subscribe(response => {
       // if (response) {
