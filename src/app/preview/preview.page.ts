@@ -54,6 +54,11 @@ export class PreviewPage implements OnInit {
     }
   }
   scoreUpdate(value) {
+    if (this.matchDetailsForBoard['extraScore'] &&
+      (this.matchDetailsForBoard['extraScore'] === 'nb' ||
+        (this.matchDetailsForBoard['extraScore'] === 'w1'))) {
+      value = value + 1;
+    }
     if (this.matchDetailsForBoard['activeBating1'].isSelected) {
       this.batingPlayers.forEach(bating => {
         if (bating.isSelected) {
