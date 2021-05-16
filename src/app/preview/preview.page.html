@@ -117,30 +117,30 @@
           </ul>
           <ul class="radio-toolbar d-flex ion-justify-content-between">
             <li class="mr-2">
-              <input type="radio" id="by" name="scrore" value="by" checked>
+              <input type="radio" id="by" name="extraScore" value="by" checked [(ngModel)]="matchDetailsForBoard.extraScore">
               <label for="by">BY</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="lb" name="scrore" value="lb">
+              <input type="radio" id="lb" name="extraScore" value="lb" [(ngModel)]="matchDetailsForBoard.extraScore">
               <label for="lb">LB</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="w1" name="scrore" value="w1">
+              <input type="radio" id="w1" name="extraScore" value="w1" [(ngModel)]="matchDetailsForBoard.extraScore">
               <label for="w1">W1</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="nb" name="scrore" value="nb">
+              <input type="radio" id="nb" name="extraScore" value="nb" [(ngModel)]="matchDetailsForBoard.extraScore">
               <label for="nb">NB</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="w" name="scrore" value="w">
+              <input type="radio" id="w" name="extraScore" value="w" [(ngModel)]="matchDetailsForBoard.extraScore">
               <label for="w">W</label>
             </li>
 
           </ul>
         </div>
       </div>
-      <div class="d-flex  align-items-center">
+      <div class="d-flex  align-items-center" *ngIf="matchDetailsForBoard.extraScore&&matchDetailsForBoard.extraScore==='w'">
         <span>Dismissal</span>
         <div class="d-flex flex-column align-items-center">
           <div class="d-flex justify-content-between">
