@@ -57,15 +57,15 @@ export class PreviewPage implements OnInit {
     if (this.matchDetailsForBoard['activeBating1'].isSelected) {
       this.batingPlayers.forEach(bating => {
         if (bating.isSelected) {
-          bating.score = bating.score + Number(value)
-          this.matchDetailsForBoard['activeBating1'].score = bating.score;
+          bating.score = bating.score + Number(value);
+          this.matchDetailsForBoard['activeBating1'].score = this.matchDetailsForBoard['activeBating1'].score + Number(value);
         }
       })
     } else if (this.matchDetailsForBoard['activeBating2'].isSelected) {
       this.batingPlayers.forEach(bating => {
         if (bating.isSelected) {
           bating.score = bating.score + Number(value)
-          this.matchDetailsForBoard['activeBating2'].score = bating.score;
+          this.matchDetailsForBoard['activeBating2'].score = this.matchDetailsForBoard['activeBating2'].score + Number(value);
         }
       })
     }
@@ -108,15 +108,16 @@ export class PreviewPage implements OnInit {
       this.teamDetails = response.Data;
       if (this.teamDetails && this.teamDetails.length) {
         this.teamDetails.map(team => {
-          if (team.SelectedTo && (team.SelectedTo === 'bat' || team.SelectedTo === 'BAT')) {
+          if (team.SelectedTo && (team.SelectedTo === 'bat' || team.SelectedTo === 'BAT' || team.SelectedTo === "Bat")) {
             this.matchDetails.battingTeam = team.team;
-            this.matchDetailsForBoard['team1shortname'] = team.team + '(Bating)';
+            this.matchDetailsForBoard['team1shortname'] = team.team + '(Batting)';
+            this.matchDetailsForBoard['team1Name'] = team.team;
             this.getbattingTeam();
           }
           if (team.SelectedTo && (team.SelectedTo === 'BOWL' || team.SelectedTo === 'bowl')) {
             this.matchDetails.bowlingTeam = team.team;
             this.matchDetailsForBoard['team2ShortName'] = team.team + '(Bowling)';
-
+            this.matchDetailsForBoard['team2Name'] = team.team;
             this.getbowlingTeam()
           }
         })
