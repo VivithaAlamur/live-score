@@ -40,7 +40,10 @@ export class PreviewPage implements OnInit {
       score: 0
     }
     this.matchDetailsForBoard['batingScoreSum'] = 0;
-
+    this.matchDetailsForBoard['ballDetails'] = {
+      overs: 0,
+      balls: 0
+    }
   }
   selectedBatchMen(value) {
     if (value === '1') {
@@ -54,6 +57,10 @@ export class PreviewPage implements OnInit {
     }
   }
   scoreUpdate(value) {
+    if (this.matchDetailsForBoard['extraScoreUpdated']) {
+      this.matchDetailsForBoard['extraScoreUpdated'] = false;
+      this.matchDetailsForBoard['extraScore'] = null;
+    }
     if (this.matchDetailsForBoard['extraScore'] &&
       (this.matchDetailsForBoard['extraScore'] === 'nb' ||
         (this.matchDetailsForBoard['extraScore'] === 'w1'))) {
@@ -73,6 +80,17 @@ export class PreviewPage implements OnInit {
           this.matchDetailsForBoard['activeBating2'].score = this.matchDetailsForBoard['activeBating2'].score + Number(value);
         }
       })
+    }
+    if (this.matchDetailsForBoard['extraScore']) {
+      this.matchDetailsForBoard['extraScoreUpdated'] = true;
+    }
+    // update the overs
+    let balls = Number(this.matchDetailsForBoard['ballDetails'].balls);
+    if (this.matchDetailsForBoard['ballDetails'].balls < 5) {
+      this.matchDetailsForBoard['ballDetails'].balls = balls + 1
+    } else {
+      this.matchDetailsForBoard['ballDetails'].overs = this.matchDetailsForBoard['ballDetails'].overs + 1;
+      this.matchDetailsForBoard['ballDetails'].balls = 0;
     }
     this.sumOfBatingTeamScore();
   }

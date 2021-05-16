@@ -7,7 +7,7 @@
           <span class="font-weight-bold">{{matchDetailsForBoard?.team1shortname}}</span>
         </ion-col>
         <ion-col class="text-right">
-          <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}</span> (0.0)</div>
+          <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}</span> ({{this.matchDetailsForBoard['ballDetails'].overs}}.{{this.matchDetailsForBoard['ballDetails'].balls}})</div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
