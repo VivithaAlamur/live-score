@@ -7,7 +7,7 @@
           <span class="font-weight-bold">{{matchDetailsForBoard?.team1shortname}}</span>
         </ion-col>
         <ion-col class="text-right">
-          <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}</span> ({{this.matchDetailsForBoard['ballDetails'].overs}}.{{this.matchDetailsForBoard['ballDetails'].balls}})</div>
+          <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}</span> ({{this.matchDetailsForBoard['ballDetails']?.overs}}.{{this.matchDetailsForBoard['ballDetails']?.balls}})</div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
@@ -20,29 +20,29 @@
       </ion-row>
       <ion-row class="ion-justify-content-between " *ngIf="matchDetailsForBoard?.activeBating1?.batsman1name">
         <ion-col>
-          <span>{{matchDetailsForBoard?.activeBating1?.batsman1name}}</span>
+          <span>{{matchDetailsForBoard?.activeBating1?.batsman1name}}</span><span *ngIf="matchDetailsForBoard?.activeBating1.isSelected">*</span>
         </ion-col>
         <ion-col class="ion-text-right">
-          <span>{{matchDetailsForBoard?.activeBating1?.score}}</span>
+          <span>{{matchDetailsForBoard?.activeBating1?.score}} ( {{matchDetailsForBoard?.activeBating1?.ballsFaced}})</span>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom" *ngIf="matchDetailsForBoard?.activeBating2?.batsman2name">
         <ion-col>
-          <span>{{matchDetailsForBoard?.activeBating2?.batsman2name}}</span>
+          <span>{{matchDetailsForBoard?.activeBating2?.batsman2name}}<span *ngIf="matchDetailsForBoard?.activeBating2.isSelected">*</span></span>
         </ion-col>
         <ion-col class="ion-text-right">
-          <span>{{matchDetailsForBoard?.activeBating2?.score}}</span>
+          <span>{{matchDetailsForBoard?.activeBating2?.score}}( {{matchDetailsForBoard?.activeBating2?.ballsFaced}})</span>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-end ">
-        <p>O-M-R-W</p>
+        <p>O-R-W</p>
       </ion-row>
       <ion-row class="ion-justify-content-between ">
         <ion-col>
-          <span>Bowler</span>
+          <span>{{matchDetailsForBoard?.bowlername}}(Bowler)</span>
         </ion-col>
         <ion-col class="ion-text-right">
-          <span>0-0-0-0</span>
+          <span>{{this.activeBowlerDetails?.overs}}.{{this.activeBowlerDetails?.balls}}-{{this.activeBowlerDetails?.runs}}-{{this.activeBowlerDetails?.wickets}}</span>
         </ion-col>
       </ion-row>
 
@@ -87,7 +87,7 @@
         <div class="d-flex flex-column">
           <ul class="radio-toolbar d-flex ion-justify-content-between">
             <li class="mr-2">
-              <input type="radio" id="zero" name="scrore" value="0" checked (click)="scoreUpdate(0)">
+              <input type="radio" id="zero" name="scrore" value="0"  (click)="scoreUpdate(0)">
               <label for="zero">0</label>
             </li>
             <li class="mr-2">
@@ -125,15 +125,15 @@
               <label for="lb">LB</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="w1" name="extraScore" value="w1" [(ngModel)]="matchDetailsForBoard.extraScore">
-              <label for="w1">W1</label>
+              <input type="radio" id="wi" name="extraScore" value="wi" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="noballScoreUpdate()">
+              <label for="wi">WI</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="nb" name="extraScore" value="nb" [(ngModel)]="matchDetailsForBoard.extraScore">
+              <input type="radio" id="nb" name="extraScore" value="nb" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="noballScoreUpdate()">
               <label for="nb">NB</label>
             </li>
-            <li class="mr-2">
-              <input type="radio" id="w" name="extraScore" value="w" [(ngModel)]="matchDetailsForBoard.extraScore">
+            <li class="mr-2" >
+              <input type="radio" id="w" name="extraScore" value="w" (click)="wicketClick()" [(ngModel)]="matchDetailsForBoard.extraScore">
               <label for="w">W</label>
             </li>
 
@@ -165,8 +165,8 @@
       </div>
       <div class="d-flex mt-3 justify-content-center align-items-center">
         <span class="mr-2">Bowler</span>
-        <select class="form-control form-control-sm">
-          <option *ngFor="let player of bowlingPlayers"> {{player.PlayerName}} </option>
+        <select class="form-control form-control-sm" [(ngModel)]="matchDetailsForBoard.bowlername" (change)="changeBowlerDetails()">
+          <option *ngFor="let player of bowlingPlayers" [value]="player.PlayerName"> {{player.PlayerName}} </option>
         </select>
       </div>
       <div class="d-flex justify-content-center mt-2">

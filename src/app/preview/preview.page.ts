@@ -16,6 +16,13 @@ export class PreviewPage implements OnInit {
   activeBating;
   activeBating2;
   activeBowling;
+  activeBowlerDetails={
+    overs:0,
+    runs:0,
+    wickets:0,
+    name:'',
+    balls:0
+  }
   constructor(
     private loginService: LoginService
   ) {
@@ -32,12 +39,14 @@ export class PreviewPage implements OnInit {
     this.matchDetailsForBoard['activeBating1'] = {
       isSelected: false,
       batsman1name: '',
-      score: 0
+      score: 0,
+      ballsFaced:0
     }
     this.matchDetailsForBoard['activeBating2'] = {
       isSelected: false,
       batsman2name: '',
-      score: 0
+      score: 0,
+      ballsFaced:0
     }
     this.matchDetailsForBoard['batingScoreSum'] = 0;
     this.matchDetailsForBoard['ballDetails'] = {
@@ -56,21 +65,22 @@ export class PreviewPage implements OnInit {
 
     }
   }
+  noballScoreUpdate(){
+    this.scoreUpdate(1);
+  
+  }
   scoreUpdate(value) {
     if (this.matchDetailsForBoard['extraScoreUpdated']) {
       this.matchDetailsForBoard['extraScoreUpdated'] = false;
       this.matchDetailsForBoard['extraScore'] = null;
     }
-    if (this.matchDetailsForBoard['extraScore'] &&
-      (this.matchDetailsForBoard['extraScore'] === 'nb' ||
-        (this.matchDetailsForBoard['extraScore'] === 'w1'))) {
-      value = value + 1;
-    }
+    
     if (this.matchDetailsForBoard['activeBating1'].isSelected) {
       this.batingPlayers.forEach(bating => {
         if (bating.isSelected) {
           bating.score = bating.score + Number(value);
           this.matchDetailsForBoard['activeBating1'].score = this.matchDetailsForBoard['activeBating1'].score + Number(value);
+          this.matchDetailsForBoard['activeBating1'].ballsFaced = this.matchDetailsForBoard['activeBating1'].ballsFaced + 1;
         }
       })
     } else if (this.matchDetailsForBoard['activeBating2'].isSelected) {
@@ -78,6 +88,7 @@ export class PreviewPage implements OnInit {
         if (bating.isSelected) {
           bating.score = bating.score + Number(value)
           this.matchDetailsForBoard['activeBating2'].score = this.matchDetailsForBoard['activeBating2'].score + Number(value);
+          this.matchDetailsForBoard['activeBating2'].ballsFaced = this.matchDetailsForBoard['activeBating2'].ballsFaced + 1;
         }
       })
     }
@@ -93,6 +104,19 @@ export class PreviewPage implements OnInit {
       this.matchDetailsForBoard['ballDetails'].balls = 0;
     }
     this.sumOfBatingTeamScore();
+    // for bowler details update
+    this.activeBowlerDetails.runs=Number(this.activeBowlerDetails.runs)+Number(value);
+    // this.activeBowlerDetails.runs=this.activeBowlerDetails['balls']+1;
+    if (this.activeBowlerDetails.balls < 5) {
+      this.activeBowlerDetails.balls = balls + 1;
+    } else {
+      this.activeBowlerDetails.overs = this.activeBowlerDetails.overs + 1;
+      this.activeBowlerDetails.balls = 0;
+    }
+  }
+  wicketClick(){
+    
+    this.activeBowlerDetails.wickets=Number(this.activeBowlerDetails.wickets)+1;
   }
   activeBatingPlayerChanged() {
     this.matchDetailsForBoard['activeBating1'].batsman1name = this.activeBating.PlayerName;
@@ -196,38 +220,42 @@ export class PreviewPage implements OnInit {
       }
     });
   }
+  changeBowlerDetails(){
+    this.activeBowlerDetails.name=this.matchDetailsForBoard['bowlername'];
+  }
   // save match details
   saveMatchData() {
     const body = {
       MatchID: this.matchDetails.MatchId
     }
+    console.log(this.matchDetailsForBoard);
     const formData = new FormData();
-    formData.append('matchid', '');
-    formData.append('team1shortname', '');
-    formData.append('team2ShortName', '');
-    formData.append('stadiumname', '');
-    formData.append('team1Score', '');
-    formData.append('team2Score', '');
-    formData.append('bowlername', '');
-    formData.append('bowlerruns', '');
-    formData.append('bowlerwickets', '');
-    formData.append('bowlermaidens', '');
-    formData.append('batsman1name', '');
-    formData.append('batsman2name', '');
-    formData.append('batsman1runs', '');
-    formData.append('batsman2runs', '');
-    formData.append('batsman1ballsfaced', '');
-    formData.append('batsman2ballsfaced', '');
-    formData.append('dismissaltype', '');
-    formData.append('fieldername', '');
-    formData.append('extraruntype', '');
-    formData.append('currentoverrun', '');
-    formData.append('innings', '');
-    formData.append('bowlerover', '');
-    formData.append('totalover', '');
-    formData.append('currentover', '');
-    formData.append('team1Wickets', '');
-    formData.append('team2Wickets', '');
+    formData.append('matchid', this.matchDetails.MatchId);
+    formData.append('team1shortname', this.matchDetailsForBoard['team1Name']);
+    formData.append('team2ShortName', this.matchDetailsForBoard['team1Name']);
+    formData.append('stadiumname', 'Vaishnavi Grounds');
+    formData.append('team1Score',this.matchDetailsForBoard['batingScoreSum'] );
+    formData.append('team2Score','200' );
+    formData.append('bowlername', this.matchDetailsForBoard['bowlername']);
+    formData.append('bowlerruns', '50');
+    formData.append('bowlerwickets', '5');
+    formData.append('bowlermaidens', '2');
+    formData.append('batsman1name', this.matchDetailsForBoard['activeBating1'].batsman1name);
+    formData.append('batsman2name', this.matchDetailsForBoard['activeBating2'].batsman2name);
+    formData.append('batsman1runs', this.matchDetailsForBoard['activeBating1'].score);
+    formData.append('batsman2runs', this.matchDetailsForBoard['activeBating2'].score);
+    formData.append('batsman1ballsfaced', '20');
+    formData.append('batsman2ballsfaced', '40');
+    formData.append('dismissaltype', 'Caught');
+    formData.append('fieldername', this.matchDetailsForBoard['fieldername']);
+    formData.append('extraruntype', 'NB');
+    formData.append('currentoverrun', '12');
+    formData.append('innings', '1st Innings');
+    formData.append('bowlerover', '50');
+    formData.append('totalover', '20');
+    formData.append('currentover', '4');
+    formData.append('team1Wickets', '5');
+    formData.append('team2Wickets', '5');
     this.loginService.getRecentMatchData(body, formData).subscribe(
       response => {
         console.log(response)

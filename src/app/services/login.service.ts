@@ -41,6 +41,9 @@ export class LoginService {
   public gettosswinnerbatbowl(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.scoreBoardUrl + 'Gettosswinnerbatbowl', body);
   }
+  public GetBowlerdata(body: any): Observable<any> {
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'GetBowlerdata', body);
+  }
   public Tosswinnerteam(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Tosswinnerteam', body);
   }
@@ -60,3 +63,4 @@ export class LoginService {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Savematchdata', body);
   }
 }
+
