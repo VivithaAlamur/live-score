@@ -16,12 +16,14 @@ export class PreviewPage implements OnInit {
   activeBating;
   activeBating2;
   activeBowling;
-  activeBowlerDetails={
-    overs:0,
-    runs:0,
-    wickets:0,
-    name:'',
-    balls:0
+  scoreValue;
+  extraScore = 0;
+  activeBowlerDetails = {
+    overs: 0,
+    runs: 0,
+    wickets: 0,
+    name: '',
+    balls: 0
   }
   constructor(
     private loginService: LoginService
@@ -36,17 +38,18 @@ export class PreviewPage implements OnInit {
       this.getSpecificMatchTeams();
       this.gettosswinnerbatbowl();
     }
+    this.matchDetailsForBoard['activeBatsman'] = null;
     this.matchDetailsForBoard['activeBating1'] = {
       isSelected: false,
       batsman1name: '',
       score: 0,
-      ballsFaced:0
+      ballsFaced: 0
     }
     this.matchDetailsForBoard['activeBating2'] = {
       isSelected: false,
       batsman2name: '',
       score: 0,
-      ballsFaced:0
+      ballsFaced: 0
     }
     this.matchDetailsForBoard['batingScoreSum'] = 0;
     this.matchDetailsForBoard['ballDetails'] = {
@@ -55,6 +58,8 @@ export class PreviewPage implements OnInit {
     }
   }
   selectedBatchMen(value) {
+    this.scoreValue = null;
+    this.matchDetailsForBoard['extraScore'] = null;
     if (value === '1') {
       this.matchDetailsForBoard['activeBating1'].isSelected = true;
       this.matchDetailsForBoard['activeBating2'].isSelected = false;
@@ -64,37 +69,85 @@ export class PreviewPage implements OnInit {
       this.matchDetailsForBoard['activeBating1'].isSelected = false;
 
     }
-  }
-  noballScoreUpdate(){
-    this.scoreUpdate(1);
-  
-  }
-  scoreUpdate(value) {
-    if (this.matchDetailsForBoard['extraScoreUpdated']) {
-      this.matchDetailsForBoard['extraScoreUpdated'] = false;
-      this.matchDetailsForBoard['extraScore'] = null;
-    }
-    
+    this.batingPlayers.forEach(bating => {
+      bating.isSelected = false;
+    })
+    // this.batingPlayers.forEach(bating => {
+    //   if (bating.PlayerID === this.activeBating.PlayerID) {
+    //     bating.isSelected = true;
+    //   } else {
+    //     bating.isSelected = false;
+    //   }
+    // });
     if (this.matchDetailsForBoard['activeBating1'].isSelected) {
-      this.batingPlayers.forEach(bating => {
-        if (bating.isSelected) {
-          bating.score = bating.score + Number(value);
-          this.matchDetailsForBoard['activeBating1'].score = this.matchDetailsForBoard['activeBating1'].score + Number(value);
-          this.matchDetailsForBoard['activeBating1'].ballsFaced = this.matchDetailsForBoard['activeBating1'].ballsFaced + 1;
+      this.batingPlayers.map(player => {
+        if (this.activeBating.PlayerID === player.PlayerID) {
+          player.isSelected = true
         }
       })
     } else if (this.matchDetailsForBoard['activeBating2'].isSelected) {
-      this.batingPlayers.forEach(bating => {
-        if (bating.isSelected) {
-          bating.score = bating.score + Number(value)
-          this.matchDetailsForBoard['activeBating2'].score = this.matchDetailsForBoard['activeBating2'].score + Number(value);
-          this.matchDetailsForBoard['activeBating2'].ballsFaced = this.matchDetailsForBoard['activeBating2'].ballsFaced + 1;
+      this.batingPlayers.map(player => {
+        if (this.activeBating2.PlayerID === player.PlayerID) {
+          player.isSelected = true
         }
       })
     }
-    if (this.matchDetailsForBoard['extraScore']) {
-      this.matchDetailsForBoard['extraScoreUpdated'] = true;
+  }
+  noballScoreUpdate() {
+    this.extraScore = this.extraScore + 1;
+    this.scoreValue = null;
+    this.sumOfBatingTeamScore();
+    // for bowler details update
+    this.activeBowlerDetails.runs = Number(this.activeBowlerDetails.runs) + Number(1);
+  }
+  scoreUpdate(value) {
+    if (!this.matchDetailsForBoard['extraScore'] || this.matchDetailsForBoard['extraScore'] === 'nb') {
+      if (this.matchDetailsForBoard['activeBating1'].isSelected) {
+        this.batingPlayers.forEach(bating => {
+          if (bating.isSelected) {
+            bating.score = bating.score + Number(value);
+            this.matchDetailsForBoard['activeBating1'].score = this.matchDetailsForBoard['activeBating1'].score + Number(value);
+            this.matchDetailsForBoard['activeBating1'].ballsFaced = this.matchDetailsForBoard['activeBating1'].ballsFaced + 1;
+          }
+        })
+      } else if (this.matchDetailsForBoard['activeBating2'].isSelected) {
+        this.batingPlayers.forEach(bating => {
+          if (bating.isSelected) {
+            bating.score = bating.score + Number(value)
+            this.matchDetailsForBoard['activeBating2'].score = this.matchDetailsForBoard['activeBating2'].score + Number(value);
+            this.matchDetailsForBoard['activeBating2'].ballsFaced = this.matchDetailsForBoard['activeBating2'].ballsFaced + 1;
+          }
+        })
+      }
+    } else {
+      this.extraScore = this.extraScore + value;
+      if (this.matchDetailsForBoard['activeBating1'].isSelected) {
+        this.batingPlayers.forEach(bating => {
+          if (bating.isSelected) {
+            bating.score = bating.score + Number(value);
+            this.matchDetailsForBoard['activeBating1'].ballsFaced = this.matchDetailsForBoard['activeBating1'].ballsFaced + 1;
+          }
+        })
+      } else if (this.matchDetailsForBoard['activeBating2'].isSelected) {
+        this.batingPlayers.forEach(bating => {
+          if (bating.isSelected) {
+            bating.score = bating.score + Number(value)
+            this.matchDetailsForBoard['activeBating2'].ballsFaced = this.matchDetailsForBoard['activeBating2'].ballsFaced + 1;
+          }
+        })
+      }
     }
+    // changing the batsman based on 1,3,5
+    if (value && value === 1 || value === 3 || value === 5) {
+      this.matchDetailsForBoard['activeBating1'].isSelected = !this.matchDetailsForBoard['activeBating1'].isSelected;
+      this.matchDetailsForBoard['activeBating2'].isSelected = !this.matchDetailsForBoard['activeBating2'].isSelected;
+      if (this.matchDetailsForBoard['activeBatsman'] === 'first') {
+        this.matchDetailsForBoard['activeBatsman'] = 'second';
+      } else {
+        this.matchDetailsForBoard['activeBatsman'] = 'first';
+      }
+    }
+    this.matchDetailsForBoard['extraScore'] = null;
     // update the overs
     let balls = Number(this.matchDetailsForBoard['ballDetails'].balls);
     if (this.matchDetailsForBoard['ballDetails'].balls < 5) {
@@ -105,7 +158,7 @@ export class PreviewPage implements OnInit {
     }
     this.sumOfBatingTeamScore();
     // for bowler details update
-    this.activeBowlerDetails.runs=Number(this.activeBowlerDetails.runs)+Number(value);
+    this.activeBowlerDetails.runs = Number(this.activeBowlerDetails.runs) + Number(value);
     // this.activeBowlerDetails.runs=this.activeBowlerDetails['balls']+1;
     if (this.activeBowlerDetails.balls < 5) {
       this.activeBowlerDetails.balls = balls + 1;
@@ -114,29 +167,75 @@ export class PreviewPage implements OnInit {
       this.activeBowlerDetails.balls = 0;
     }
   }
-  wicketClick(){
-    
-    this.activeBowlerDetails.wickets=Number(this.activeBowlerDetails.wickets)+1;
+  wicketClick() {
+    this.activeBowlerDetails.wickets = Number(this.activeBowlerDetails.wickets) + 1;
+    this.scoreValue = null;
+
+    if (this.matchDetailsForBoard['activeBating1'].isSelected) {
+      this.batingPlayers.forEach(bating => {
+        if (bating.isSelected) {
+          bating.isOut = true;
+        }
+      })
+      this.matchDetailsForBoard['activeBating1'].ballsFaced = this.matchDetailsForBoard['activeBating1'].ballsFaced + 1;
+    } else if (this.matchDetailsForBoard['activeBating2'].isSelected) {
+      this.batingPlayers.forEach(bating => {
+        if (bating.isSelected) {
+          bating.isOut = true;
+        }
+      })
+      this.matchDetailsForBoard['activeBating2'].ballsFaced = this.matchDetailsForBoard['activeBating2'].ballsFaced + 1;
+    }
+    this.getTotalOutedcount();
+
+  }
+  getTotalOutedcount() {
+    if (this.batingPlayers && this.batingPlayers.length) {
+      const playersList = this.batingPlayers.filter(bating => {
+        return bating.isOut
+      })
+      return playersList && playersList.length ? playersList.length : 0;
+    } else {
+      return 0
+    }
+
+  }
+  extraScoreClicked() {
+    this.scoreValue = null;
   }
   activeBatingPlayerChanged() {
+    // this.batingPlayers.forEach(bating => {
+    //   if (bating.PlayerID === this.activeBating.PlayerID) {
+    //     bating.isSelected = true;
+    //   } else {
+    //     bating.isSelected = false;
+    //   }
+    // });
+      // this.matchDetailsForBoard['activeBating1'].batsman1name = this.activeBating.PlayerName
+      // this.matchDetailsForBoard['activeBating1'].batsman1name;
+      // if(this.matchDetailsForBoard['activeBating1'].isSelected){
+        if(this.matchDetailsForBoard['activeBating1'].batsman1name !== this.activeBating.PlayerName){
+          this.matchDetailsForBoard['activeBating1'].score=0;
+          this.matchDetailsForBoard['activeBating1'].ballsFaced=0;
+        }
+      // }
     this.matchDetailsForBoard['activeBating1'].batsman1name = this.activeBating.PlayerName;
-    this.batingPlayers.forEach(bating => {
-      if (bating.PlayerID === this.activeBating.PlayerID) {
-        bating.isSelected = true;
-      } else {
-        bating.isSelected = false;
-      }
-    });
   }
   activeBatingPlayer2Changed() {
-    this.matchDetailsForBoard['activeBating2'].batsman2name = this.activeBating2.PlayerName;
-    this.batingPlayers.forEach(bating => {
-      if (bating.PlayerID === this.activeBating2.PlayerID) {
-        bating.isSelected = true;
-      } else {
-        bating.isSelected = false;
+    // if(this.matchDetailsForBoard['activeBating2'].isSelected){
+      if(this.matchDetailsForBoard['activeBating2'].batsman2name !== this.activeBating.PlayerName){
+        this.matchDetailsForBoard['activeBating2'].score=0;
+        this.matchDetailsForBoard['activeBating2'].ballsFaced=0;
       }
-    });
+    // }
+    this.matchDetailsForBoard['activeBating2'].batsman2name = this.activeBating2.PlayerName;
+    // this.batingPlayers.forEach(bating => {
+    //   if (bating.PlayerID === this.activeBating2.PlayerID) {
+    //     bating.isSelected = true;
+    //   } else {
+    //     bating.isSelected = false;
+    //   }
+    // });
   }
   sumOfBatingTeamScore() {
     let sum = 0;
@@ -145,7 +244,7 @@ export class PreviewPage implements OnInit {
         const playerScore = current.score;
         sum = sum + playerScore;
       });
-      this.matchDetailsForBoard['batingScoreSum'] = sum || 0;
+      this.matchDetailsForBoard['batingScoreSum'] = sum + this.extraScore || 0;
     }
   }
   gettosswinnerbatbowl() {
@@ -204,6 +303,7 @@ export class PreviewPage implements OnInit {
         this.batingPlayers.forEach(player => {
           player.isSelected = false;
           player.score = 0;
+          player.isOut = false;
         })
       }
     });
@@ -220,43 +320,54 @@ export class PreviewPage implements OnInit {
       }
     });
   }
-  changeBowlerDetails(){
-    this.activeBowlerDetails.name=this.matchDetailsForBoard['bowlername'];
+  changeBowlerDetails() {
+    this.activeBowlerDetails.name = this.matchDetailsForBoard['bowlername'];
   }
   // save match details
   saveMatchData() {
     const body = {
       MatchID: this.matchDetails.MatchId
     }
+    const matchData = [
+      {
+        matchid: this.matchDetails.MatchId,
+        team1shortname: this.matchDetailsForBoard['team1Name'],
+        team2ShortName: this.matchDetailsForBoard['team1Name'],
+        stadiumname: 'Vaishnavi Grounds',
+        team1Score: this.matchDetailsForBoard['batingScoreSum'],
+        team2Score: '200',
+        bowlername: this.matchDetailsForBoard['bowlername'],
+        bowlerruns: '50',
+        bowlerwickets: '5',
+        bowlermaidens: '2',
+        batsman1name: this.matchDetailsForBoard['activeBating1'].batsman1name,
+        batsman2name: this.matchDetailsForBoard['activeBating2'].batsman2name,
+        batsman1runs: this.matchDetailsForBoard['activeBating1'].score,
+        batsman2runs: this.matchDetailsForBoard['activeBating2'].score,
+        batsman1ballsfaced: '20',
+        batsman2ballsfaced: '40',
+        dismissaltype: 'Caught',
+        fieldername: this.matchDetailsForBoard['fieldername'],
+        extraruntype: 'NB',
+        currentoverrun: '12',
+        innings: '1st Innings',
+        bowlerover: '50',
+        totalover: '20',
+        currentover: '4',
+        team1Wickets: '5',
+        team2Wickets: '5',
+        strikerplayer: 'a',
+        currentover_data: '5',
+        dismissalplayer: 'c',
+
+      }
+    ]
     console.log(this.matchDetailsForBoard);
     const formData = new FormData();
     formData.append('matchid', this.matchDetails.MatchId);
     formData.append('team1shortname', this.matchDetailsForBoard['team1Name']);
-    formData.append('team2ShortName', this.matchDetailsForBoard['team1Name']);
-    formData.append('stadiumname', 'Vaishnavi Grounds');
-    formData.append('team1Score',this.matchDetailsForBoard['batingScoreSum'] );
-    formData.append('team2Score','200' );
-    formData.append('bowlername', this.matchDetailsForBoard['bowlername']);
-    formData.append('bowlerruns', '50');
-    formData.append('bowlerwickets', '5');
-    formData.append('bowlermaidens', '2');
-    formData.append('batsman1name', this.matchDetailsForBoard['activeBating1'].batsman1name);
-    formData.append('batsman2name', this.matchDetailsForBoard['activeBating2'].batsman2name);
-    formData.append('batsman1runs', this.matchDetailsForBoard['activeBating1'].score);
-    formData.append('batsman2runs', this.matchDetailsForBoard['activeBating2'].score);
-    formData.append('batsman1ballsfaced', '20');
-    formData.append('batsman2ballsfaced', '40');
-    formData.append('dismissaltype', 'Caught');
-    formData.append('fieldername', this.matchDetailsForBoard['fieldername']);
-    formData.append('extraruntype', 'NB');
-    formData.append('currentoverrun', '12');
-    formData.append('innings', '1st Innings');
-    formData.append('bowlerover', '50');
-    formData.append('totalover', '20');
-    formData.append('currentover', '4');
-    formData.append('team1Wickets', '5');
-    formData.append('team2Wickets', '5');
-    this.loginService.getRecentMatchData(body, formData).subscribe(
+
+    this.loginService.getRecentMatchData(body, matchData).subscribe(
       response => {
         console.log(response)
       });

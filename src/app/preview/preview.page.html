@@ -7,7 +7,7 @@
           <span class="font-weight-bold">{{matchDetailsForBoard?.team1shortname}}</span>
         </ion-col>
         <ion-col class="text-right">
-          <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}</span> ({{this.matchDetailsForBoard['ballDetails']?.overs}}.{{this.matchDetailsForBoard['ballDetails']?.balls}})</div>
+          <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}/{{getTotalOutedcount()}}</span> ({{this.matchDetailsForBoard['ballDetails']?.overs}}.{{this.matchDetailsForBoard['ballDetails']?.balls}})</div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
@@ -31,7 +31,7 @@
           <span>{{matchDetailsForBoard?.activeBating2?.batsman2name}}<span *ngIf="matchDetailsForBoard?.activeBating2.isSelected">*</span></span>
         </ion-col>
         <ion-col class="ion-text-right">
-          <span>{{matchDetailsForBoard?.activeBating2?.score}}( {{matchDetailsForBoard?.activeBating2?.ballsFaced}})</span>
+          <span>{{matchDetailsForBoard?.activeBating2?.score}}({{matchDetailsForBoard?.activeBating2?.ballsFaced}})</span>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-end ">
@@ -70,13 +70,13 @@
       <div class="d-flex flex-column justify-content-center align-items-center">
         <ion-label class="m-0 p-2">Striker</ion-label>
         <div class="d-flex align-items-center justify-content-center">
-          <input type="radio" name="Batsman" value="true" (click)="selectedBatchMen('1')" />
+          <input type="radio" name="Batsman" value="first" (click)="selectedBatchMen('1')" [(ngModel)]="matchDetailsForBoard.activeBatsman" />
           <select class="ml-2 form-control form-control-sm" [(ngModel)]="activeBating" (change)="activeBatingPlayerChanged()">
             <option *ngFor="let bating of batingPlayers" [ngValue]="bating">{{bating.PlayerName}}</option>
           </select>
         </div>
         <div class="d-flex align-items-center justify-content-center">
-          <input type="radio" name="Batsman" value="true" (click)="selectedBatchMen('2')" />
+          <input type="radio" name="Batsman" value="second" (click)="selectedBatchMen('2')"  [(ngModel)]="matchDetailsForBoard.activeBatsman"/>
           <select class="ml-2 form-control form-control-sm " [(ngModel)]="activeBating2" (change)="activeBatingPlayer2Changed()">
               <option *ngFor="let bating of batingPlayers" [ngValue]="bating">{{bating.PlayerName}}</option>
           </select>
@@ -87,41 +87,41 @@
         <div class="d-flex flex-column">
           <ul class="radio-toolbar d-flex ion-justify-content-between">
             <li class="mr-2">
-              <input type="radio" id="zero" name="scrore" value="0"  (click)="scoreUpdate(0)">
+              <input type="radio" id="zero" name="scoreValue" value="0"  (click)="scoreUpdate(0)" [(ngModel)]="scoreValue">
               <label for="zero">0</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="one" name="scrore" value="1" (click)="scoreUpdate(1)">
+              <input type="radio" id="one" name="scoreValue" value="1" (click)="scoreUpdate(1)" [(ngModel)]="scoreValue">
               <label for="one">1</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="two" name="scrore" value="2" (click)="scoreUpdate(2)">
+              <input type="radio" id="two" name="scoreValue" value="2" (click)="scoreUpdate(2)" [(ngModel)]="scoreValue">
               <label for="two">2</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="three" name="scrore" value="3" (click)="scoreUpdate(3)">
+              <input type="radio" id="three" name="scoreValue" value="3" (click)="scoreUpdate(3)" [(ngModel)]="scoreValue">
               <label for="three">3</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="four" name="scrore" value="4" (click)="scoreUpdate(4)">
+              <input type="radio" id="four" name="scoreValue" value="4" (click)="scoreUpdate(4)" [(ngModel)]="scoreValue">
               <label for="four">4</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="five" name="scrore" value="5" (click)="scoreUpdate(5)">
+              <input type="radio" id="five" name="scoreValue" value="5" (click)="scoreUpdate(5)" [(ngModel)]="scoreValue">
               <label for="five">5</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="six" name="scrore" value="6" (click)="scoreUpdate(6)">
+              <input type="radio" id="six" name="scrore" value="6" (click)="scoreUpdate(6)" [(ngModel)]="scoreValue">
               <label for="six">6</label>
             </li>
           </ul>
           <ul class="radio-toolbar d-flex ion-justify-content-between">
             <li class="mr-2">
-              <input type="radio" id="by" name="extraScore" value="by" checked [(ngModel)]="matchDetailsForBoard.extraScore">
+              <input type="radio" id="by" name="extraScore" value="by" checked [(ngModel)]="matchDetailsForBoard.extraScore" (click)="extraScoreClicked()">
               <label for="by">BY</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="lb" name="extraScore" value="lb" [(ngModel)]="matchDetailsForBoard.extraScore">
+              <input type="radio" id="lb" name="extraScore" value="lb" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="extraScoreClicked()">
               <label for="lb">LB</label>
             </li>
             <li class="mr-2">
