@@ -4,7 +4,7 @@
     <ion-grid>
       <ion-row class="ion-justify-content-between">
         <ion-col>
-          <span class="font-weight-bold">{{matchDetailsForBoard?.team1shortname}}</span>
+          <span class="font-weight-bold">{{selectedInningType==='second'?matchDetailsForBoard?.team2ShortName:matchDetailsForBoard?.team1shortname}}</span>
         </ion-col>
         <ion-col class="text-right">
           <div><span class="font-weight-bold">{{ this.matchDetailsForBoard.batingScoreSum}}/{{getTotalOutedcount()}}</span> ({{this.matchDetailsForBoard['ballDetails']?.overs}}.{{this.matchDetailsForBoard['ballDetails']?.balls}})</div>
@@ -12,7 +12,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-between border-bottom">
         <ion-col>
-          <span class="font-weight-bold">{{matchDetailsForBoard?.team2ShortName}}</span>
+          <span class="font-weight-bold">{{selectedInningType==='second'?matchDetailsForBoard?.team1shortname:matchDetailsForBoard?.team2ShortName}}</span>
         </ion-col>
         <ion-col class="text-right">
           <span>YET to BAT</span>
@@ -51,11 +51,11 @@
           <button type="button" class="btn border border-dark">Full Scoreboard</button>
         </ion-col>
       </ion-row>
-      <ion-row class="ion-justify-content-between">
-        <ion-col>
-          <span class="bg-light ">First innings</span>
+      <ion-row class="ion-justify-content-between m-4">
+        <ion-col class="border-grey " [ngClass]="{'active':selectedInningType==='first'}" (click)="inningsClicked('first')">
+          <span class=" ">First innings</span>
         </ion-col>
-        <ion-col class="ion-text-right">
+        <ion-col class="border-grey ion-text-right" [ngClass]="{'active':selectedInningType==='second'}" (click)="inningsClicked('second')">
           <span class="">Second innings</span>
         </ion-col>
       </ion-row>
@@ -63,8 +63,15 @@
         <ion-label class="mr-2 font-weight-bold">Batting Team</ion-label>
         <select class="w-50 select form-control form-control-sm" (change)="getbattingTeam()" [(ngModel)]="matchDetails.battingTeam">
           <ng-container *ngFor="let team of  specificMatchTeams" >
-            <option *ngIf="matchDetailsForBoard.team1Name&&matchDetailsForBoard.team1Name===team.teams" [value]="team.teams">
-              {{team.teams}}</option></ng-container>
+             <!-- for first innings -->
+            <option *ngIf=" selectedInningType==='first' && (matchDetailsForBoard.team1Name&&matchDetailsForBoard.team1Name===team.teams)" [value]="team.teams">
+              {{team.teams}}</option>
+            </ng-container>
+            <!--  for second innings -->
+            <ng-container *ngFor="let team of  specificMatchTeams" >
+              <option *ngIf="selectedInningType==='second' &&(matchDetailsForBoard.team2Name&&matchDetailsForBoard.team2Name===team.teams)" [value]="team.teams">
+                {{team.teams}}</option>
+              </ng-container>
         </select>
       </div>
       <div class="d-flex flex-column justify-content-center align-items-center">
@@ -159,7 +166,9 @@
         <ion-label class="mr-2 font-weight-bold">Bowling Team</ion-label>
         <select class="w-50 select form-control form-control-sm" (change)="getbowlingTeam()" [(ngModel)]="matchDetails.bowlingTeam">
           <ng-container *ngFor="let teamDetail of specificMatchTeams">
-          <option *ngIf="matchDetailsForBoard.team2Name&&matchDetailsForBoard.team2Name===teamDetail.teams"  [value]="teamDetail.teams">{{teamDetail.teams}}</option>
+          <option *ngIf="selectedInningType==='first' &&(matchDetailsForBoard.team2Name&&matchDetailsForBoard.team2Name===teamDetail.teams)"  [value]="teamDetail.teams">{{teamDetail.teams}}</option>
+          <option *ngIf="selectedInningType==='second' &&(matchDetailsForBoard.team1Name&&matchDetailsForBoard.team1Name===teamDetail.teams)"  [value]="teamDetail.teams">{{teamDetail.teams}}</option>
+
         </ng-container>
         </select>
       </div>

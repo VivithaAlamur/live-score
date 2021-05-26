@@ -25,11 +25,11 @@ export class PreviewPage implements OnInit {
     name: '',
     balls: 0
   }
+  selectedInningType: string='first';
   constructor(
     private loginService: LoginService
   ) {
     this.matchDetails = JSON.parse(this.loginService.getMatchDetails());
-
   }
 
   ngOnInit() {
@@ -211,22 +211,22 @@ export class PreviewPage implements OnInit {
     //     bating.isSelected = false;
     //   }
     // });
-      // this.matchDetailsForBoard['activeBating1'].batsman1name = this.activeBating.PlayerName
-      // this.matchDetailsForBoard['activeBating1'].batsman1name;
-      // if(this.matchDetailsForBoard['activeBating1'].isSelected){
-        if(this.matchDetailsForBoard['activeBating1'].batsman1name !== this.activeBating.PlayerName){
-          this.matchDetailsForBoard['activeBating1'].score=0;
-          this.matchDetailsForBoard['activeBating1'].ballsFaced=0;
-        }
-      // }
+    // this.matchDetailsForBoard['activeBating1'].batsman1name = this.activeBating.PlayerName
+    // this.matchDetailsForBoard['activeBating1'].batsman1name;
+    // if(this.matchDetailsForBoard['activeBating1'].isSelected){
+    if (this.matchDetailsForBoard['activeBating1'].batsman1name !== this.activeBating.PlayerName) {
+      this.matchDetailsForBoard['activeBating1'].score = 0;
+      this.matchDetailsForBoard['activeBating1'].ballsFaced = 0;
+    }
+    // }
     this.matchDetailsForBoard['activeBating1'].batsman1name = this.activeBating.PlayerName;
   }
   activeBatingPlayer2Changed() {
     // if(this.matchDetailsForBoard['activeBating2'].isSelected){
-      if(this.matchDetailsForBoard['activeBating2'].batsman2name !== this.activeBating.PlayerName){
-        this.matchDetailsForBoard['activeBating2'].score=0;
-        this.matchDetailsForBoard['activeBating2'].ballsFaced=0;
-      }
+    if (this.matchDetailsForBoard['activeBating2'].batsman2name !== this.activeBating.PlayerName) {
+      this.matchDetailsForBoard['activeBating2'].score = 0;
+      this.matchDetailsForBoard['activeBating2'].ballsFaced = 0;
+    }
     // }
     this.matchDetailsForBoard['activeBating2'].batsman2name = this.activeBating2.PlayerName;
     // this.batingPlayers.forEach(bating => {
@@ -321,6 +321,10 @@ export class PreviewPage implements OnInit {
     });
   }
   changeBowlerDetails() {
+    this.activeBowlerDetails.overs = 0;
+    this.activeBowlerDetails.balls = 0;
+    this.activeBowlerDetails.runs = 0;
+    this.activeBowlerDetails.wickets = 0;
     this.activeBowlerDetails.name = this.matchDetailsForBoard['bowlername'];
   }
   // save match details
@@ -371,5 +375,53 @@ export class PreviewPage implements OnInit {
       response => {
         console.log(response)
       });
+  }
+  inningsClicked(type) {
+    this.selectedInningType = type;
+   this.matchDetailsForBoard['batingScoreSum']=0;
+   this.matchDetailsForBoard['ballDetails'].overs=0;
+    this.matchDetailsForBoard['ballDetails'].balls=0
+    // for players data
+    this.matchDetailsForBoard['activeBating1'].score=0;
+     this.matchDetailsForBoard['activeBating1'].ballsFaced=0;
+     this.matchDetailsForBoard['activeBating2'].score=0;
+     this.matchDetailsForBoard['activeBating2'].ballsFaced=0;
+     // for bowler details
+    this.activeBowlerDetails.overs=0;
+     this.activeBowlerDetails.balls=0;
+     this.activeBowlerDetails.runs=0;
+     this.activeBowlerDetails.wickets=0;
+    if(this.selectedInningType==='second'){
+      this.matchDetailsForBoard['team2ShortName'] = this.matchDetailsForBoard['team2Name'] + '(Batting)';
+      this.matchDetailsForBoard['team1shortname'] = this.matchDetailsForBoard['team1Name'] + '(Bowling)';
+      if (this.teamDetails && this.teamDetails.length) {
+        this.teamDetails.map(team => {
+          if (team.SelectedTo && (team.SelectedTo === 'bat' || team.SelectedTo === 'BAT' 
+          || team.SelectedTo === "Bat")) {
+            this.matchDetails.bowlingTeam = team.team;
+          }
+          if (team.SelectedTo && (team.SelectedTo === 'BOWL' || team.SelectedTo === 'bowl')) {
+            this.matchDetails.battingTeam= team.team;
+          }
+        })
+      }
+    }else{
+      this.matchDetailsForBoard['team2ShortName'] = this.matchDetailsForBoard['team2Name'] + '(Bowling)';
+      this.matchDetailsForBoard['team1shortname'] = this.matchDetailsForBoard['team1Name'] + '(Batting)';
+      if (this.teamDetails && this.teamDetails.length) {
+        this.teamDetails.map(team => {
+          if (team.SelectedTo && (team.SelectedTo === 'bat' || team.SelectedTo === 'BAT' 
+          || team.SelectedTo === "Bat")) {
+            this.matchDetails.battingTeam = team.team;
+          }
+          if (team.SelectedTo && (team.SelectedTo === 'BOWL' || team.SelectedTo === 'bowl')) {
+            this.matchDetails.bowlingTeam = team.team;
+          }
+        })
+      }
+    }
+    // changing the bating team name
+    // this.matchDetails.battingTeam=
+    
   }
 }
