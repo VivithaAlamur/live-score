@@ -79,13 +79,23 @@
         <div class="d-flex align-items-center justify-content-center">
           <input type="radio" name="Batsman" value="first" (click)="selectedBatchMen('1')" [(ngModel)]="matchDetailsForBoard.activeBatsman" />
           <select class="ml-2 form-control form-control-sm" [(ngModel)]="activeBating" (change)="activeBatingPlayerChanged()">
-            <option *ngFor="let bating of batingPlayers" [ngValue]="bating">{{bating.PlayerName}}</option>
+            <ng-container *ngIf="selectedInningType==='first'">
+           <option *ngFor="let bating of batingPlayers" [ngValue]="bating">{{bating.PlayerName}}</option>
+          </ng-container>
+          <ng-container *ngIf="selectedInningType==='second'">
+          <option *ngFor="let player of bowlingPlayers" [ngValue]="player"> {{player.PlayerName}} </option>
+        </ng-container>
           </select>
         </div>
         <div class="d-flex align-items-center justify-content-center">
           <input type="radio" name="Batsman" value="second" (click)="selectedBatchMen('2')"  [(ngModel)]="matchDetailsForBoard.activeBatsman"/>
           <select class="ml-2 form-control form-control-sm " [(ngModel)]="activeBating2" (change)="activeBatingPlayer2Changed()">
+            <ng-container *ngIf="selectedInningType==='first'">
               <option *ngFor="let bating of batingPlayers" [ngValue]="bating">{{bating.PlayerName}}</option>
+            </ng-container>
+            <ng-container *ngIf="selectedInningType==='second'">
+              <option *ngFor="let player of bowlingPlayers" [ngValue]="player"> {{player.PlayerName}} </option>
+            </ng-container>
           </select>
         </div>
       </div>
@@ -132,8 +142,8 @@
               <label for="lb">LB</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="wi" name="extraScore" value="wi" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="noballScoreUpdate()">
-              <label for="wi">WI</label>
+              <input type="radio" id="wd" name="extraScore" value="wd" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="noballScoreUpdate()">
+              <label for="wd">WD</label>
             </li>
             <li class="mr-2">
               <input type="radio" id="nb" name="extraScore" value="nb" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="noballScoreUpdate()">
@@ -175,13 +185,23 @@
       <div class="d-flex mt-3 justify-content-center align-items-center">
         <span class="mr-2">Bowler</span>
         <select class="form-control form-control-sm" [(ngModel)]="matchDetailsForBoard.bowlername" (change)="changeBowlerDetails()">
+          <ng-container *ngIf="selectedInningType==='first'">
           <option *ngFor="let player of bowlingPlayers" [value]="player.PlayerName"> {{player.PlayerName}} </option>
+          </ng-container>
+          <ng-container *ngIf="selectedInningType==='second'">
+            <option *ngFor="let bating of batingPlayers" [value]="bating.PlayerName">{{bating.PlayerName}}</option>
+          </ng-container>
         </select>
       </div>
       <div class="d-flex justify-content-center mt-2">
         <ion-label class="mr-2 font-weight-bold">Fieler* </ion-label>
         <select class="w-50 select form-control form-control-sm">
+          <ng-container *ngIf="selectedInningType==='first'">
           <option *ngFor="let player of bowlingPlayers"> {{player.PlayerName}} </option>
+        </ng-container>
+          <ng-container *ngIf="selectedInningType==='second'">
+            <option *ngFor="let bating of batingPlayers" [value]="bating.PlayerName">{{bating.PlayerName}}</option>
+          </ng-container>
         </select>
       </div>
       <div text-left="">
