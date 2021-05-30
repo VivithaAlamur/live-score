@@ -1,5 +1,8 @@
 <ion-app styke="width:100%;max-width:95%;overflow-y: auto; mb-5">
+  <div>
+    <span class="p-2" (click)="gotoBackpage()"><- </span>
   <h4 class="border-bottom text-center p-2">Preview</h4>
+</div>
   <ion-content class="ion-padding">
     <ion-grid>
       <ion-row class="ion-justify-content-between">
@@ -134,19 +137,23 @@
           </ul>
           <ul class="radio-toolbar d-flex ion-justify-content-between">
             <li class="mr-2">
-              <input type="radio" id="by" name="extraScore" value="by" checked [(ngModel)]="matchDetailsForBoard.extraScore" (click)="extraScoreClicked()">
+              <input type="radio" id="by" name="extraScore" value="by" checked [(ngModel)]="matchDetailsForBoard.extraScore" 
+              (click)="extraScoreClicked('by')">
               <label for="by">BY</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="lb" name="extraScore" value="lb" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="extraScoreClicked()">
+              <input type="radio" id="lb" name="extraScore" value="lb" [(ngModel)]="matchDetailsForBoard.extraScore" 
+              (click)="extraScoreClicked('lb')">
               <label for="lb">LB</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="wd" name="extraScore" value="wd" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="noballScoreUpdate()">
+              <input type="radio" id="wd" name="extraScore" value="wd" [(ngModel)]="matchDetailsForBoard.extraScore"
+               (click)="openModal('wd')">
               <label for="wd">WD</label>
             </li>
             <li class="mr-2">
-              <input type="radio" id="nb" name="extraScore" value="nb" [(ngModel)]="matchDetailsForBoard.extraScore" (click)="noballScoreUpdate()">
+              <input type="radio" id="nb" name="extraScore" value="nb" [(ngModel)]="matchDetailsForBoard.extraScore"
+               (click)="openModal('nb')">
               <label for="nb">NB</label>
             </li>
             <li class="mr-2" >
