@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
-
+import { ExtraScoreModalComponent } from './extra-score-modal/extra-score-modal.component';
+import {
+  MatDialog, MatDialogRef
+} from "@angular/material/dialog";
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.page.html',
   styleUrls: ['./preview.page.scss'],
 })
 export class PreviewPage implements OnInit {
+  matDialogRef: MatDialogRef<ExtraScoreModalComponent>;
   teamDetails = [];
   bowlingPlayers = [];
   batingPlayers = [];
@@ -27,7 +31,8 @@ export class PreviewPage implements OnInit {
   }
   selectedInningType: string='first';
   constructor(
-    private loginService: LoginService
+    private loginService: LoginService,
+    private matDialog: MatDialog
   ) {
     this.matchDetails = JSON.parse(this.loginService.getMatchDetails());
   }
@@ -202,6 +207,7 @@ export class PreviewPage implements OnInit {
   }
   extraScoreClicked() {
     this.scoreValue = null;
+    this.openModal();
   }
   activeBatingPlayerChanged() {
     // this.batingPlayers.forEach(bating => {
@@ -423,5 +429,17 @@ export class PreviewPage implements OnInit {
     // changing the bating team name
     // this.matchDetails.battingTeam=
     
+  }
+  openModal(){
+    this.matDialogRef = 
+    this.matDialog.open(ExtraScoreModalComponent, {
+      data: { name:'' },
+      disableClose: true,
+      panelClass:'col-sm-5'
+    });
+    this.matDialogRef.afterClosed().subscribe(res => {
+      if ((res == true)) {
+      }
+    });
   }
 }

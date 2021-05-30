@@ -12,10 +12,12 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from 'src/environments/environment';
-
+import { ExtraScoreModalComponent } from './preview/extra-score-modal/extra-score-modal.component';
+import { MatDialogModule } from "@angular/material/dialog";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 @NgModule({
-    declarations: [AppComponent],
-  entryComponents: [],
+    declarations: [AppComponent,
+      ExtraScoreModalComponent],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, IonicModule.forRoot(),
      AppRoutingModule,
      HttpClientModule,
@@ -23,9 +25,12 @@ import { environment } from 'src/environments/environment';
      IonicStorageModule.forRoot(),
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireDatabaseModule,
+      MatDialogModule,
+      BrowserAnimationsModule
      ],
   providers: [
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[ExtraScoreModalComponent]
 })
 export class AppModule {}
