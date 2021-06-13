@@ -13,6 +13,7 @@ export class StartMatchPage implements OnInit {
   isSecond = false;
   isThree = false;
   createMatchForm: any;
+  submitted=false;
   tossWinner: any;
   matchDetails;
   SelectedTo: any;
@@ -208,5 +209,14 @@ export class StartMatchPage implements OnInit {
         this.teams = response.Data;
       });
   }
-
+  createMatchClick(){
+    this.submitted=true;
+    if(this.createMatchForm.MatchName&&
+      this.createMatchForm.PlayDate&&
+      this.createMatchForm.Team1&&
+      this.createMatchForm.Team2){
+    this.isFirst=false;
+    this.isSecond=true;
+    }
+  }
 }

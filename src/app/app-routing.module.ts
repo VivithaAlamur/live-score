@@ -19,6 +19,10 @@ const routes: Routes = [
   },  {
     path: 'preview',
     loadChildren: () => import('./preview/preview.module').then( m => m.PreviewPageModule)
+  },
+  {
+    path: 'create-match',
+    loadChildren: () => import('./create-match/create-match.module').then( m => m.CreateMatchPageModule)
   }
 
 ];
