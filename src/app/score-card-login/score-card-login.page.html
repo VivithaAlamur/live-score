@@ -6,11 +6,18 @@
     <div class="form-group col-sm-3 col-md-6 col-lg-6 col-xl-6 ">
       <ion-label for="email" class="text-primary font-weight-bold">E-mail</ion-label>
       <ion-input type="email" class="form-control form-control-sm" id="email" aria-describedby="emailHelp"
-        placeholder="Enter email" formControlName="Emailid"></ion-input>
+        placeholder="Enter email" formControlName="Emailid" [ngClass]="{ 'border border-danger': submitted && f.Emailid.errors }"></ion-input>
+        <div *ngIf="submitted && f.Emailid.errors" class="mt-2">
+          <div *ngIf="f.Emailid.errors.required" class="error">Emailid is required</div>
+      </div>
     </div>
       <div class="form-group col-sm-3  col-md-6 col-lg-6 col-xl-6">
         <ion-label for="password" class="text-primary font-weight-bold">Password</ion-label>
-        <ion-input type="password" class="form-control form-control-sm" id="password" placeholder="Enter password" formControlName="Password"> </ion-input>
+        <ion-input type="password" class="form-control form-control-sm" id="password" placeholder="Enter password" 
+        formControlName="Password" [ngClass]="{ 'border border-danger': submitted && f.Password.errors }"> </ion-input>
+        <div *ngIf="submitted && f.Password.errors" class="mt-2">
+          <div *ngIf="f.Password.errors.required" class="error">Password is required</div>
+      </div>
       </div> 
     <div class="text-center">
 <button type="button" class="btn btn-primary pl-4 pr-4" (click)="login()" >Login</button>
