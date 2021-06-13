@@ -35,6 +35,14 @@ export class StartMatchPage implements OnInit {
         if (this.matchDetails) {
           this.getTeamsBasedOnMatchId();
         }
+      }else if(params &&params.isSecond){
+        this.isThree = false;
+        this.isFirst = false;
+        this.isSecond = true;
+        this.matchDetails = JSON.parse(this.loginService.getMatchDetails());
+        if (this.matchDetails) {
+          this.getPlayerData();
+        }
       }
     })
 

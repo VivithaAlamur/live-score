@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { ExtraScoreModalComponent } from './extra-score-modal/extra-score-modal.component';
+import { Imatchreqst, ImatchsenRequest } from '../models/stumpsbails.interfaces';
+
 import {
   MatDialog, MatDialogRef
 } from "@angular/material/dialog";
@@ -31,6 +33,7 @@ export class PreviewPage implements OnInit {
     balls: 0
   }
   selectedInningType: string = 'first';
+  httpClient: any;
   constructor(
     private loginService: LoginService,
     private matDialog: MatDialog,
@@ -366,9 +369,11 @@ export class PreviewPage implements OnInit {
   }
   // for getting the match details
   getRecentMatchData() {
-    const formData = new FormData();
-    formData.append('MTID', this.matchDetails.MatchId);
-    this.loginService.getRecentMatchData(this.matchDetails, formData).subscribe(response => {
+    const iplayerDataRequest: Imatchreqst = {
+      matchid: '215',
+    };
+
+    this.loginService.getRecentMatchData(iplayerDataRequest).subscribe(response => {
       const matchData = response.Data;
       if (matchData && matchData.length) {
         this.matchDetailsForBoard = matchData[0];
@@ -384,49 +389,57 @@ export class PreviewPage implements OnInit {
   }
   // save match details
   saveMatchData() {
-    const body = {
-      MatchID: this.matchDetails.MatchId
-    }
-    const matchData = [
-      {
-        matchid: this.matchDetails.MatchId,
-        team1shortname: this.matchDetailsForBoard['team1Name'],
-        team2ShortName: this.matchDetailsForBoard['team1Name'],
-        stadiumname: 'Vaishnavi Grounds',
-        team1Score: this.matchDetailsForBoard['batingScoreSum'],
-        team2Score: '200',
-        bowlername: this.matchDetailsForBoard['bowlername'],
-        bowlerruns: '50',
-        bowlerwickets: '5',
-        bowlermaidens: '2',
-        batsman1name: this.matchDetailsForBoard['activeBating1'].batsman1name,
-        batsman2name: this.matchDetailsForBoard['activeBating2'].batsman2name,
-        batsman1runs: this.matchDetailsForBoard['activeBating1'].score,
-        batsman2runs: this.matchDetailsForBoard['activeBating2'].score,
-        batsman1ballsfaced: '20',
-        batsman2ballsfaced: '40',
-        dismissaltype: 'Caught',
-        fieldername: this.matchDetailsForBoard['fieldername'],
-        extraruntype: 'NB',
-        currentoverrun: '12',
-        innings: '1st Innings',
-        bowlerover: '50',
-        totalover: '20',
-        currentover: '4',
-        team1Wickets: '5',
-        team2Wickets: '5',
-        strikerplayer: 'a',
-        currentover_data: '5',
-        dismissalplayer: 'c',
-
-      }
-    ]
-    console.log(this.matchDetailsForBoard);
-    const formData = new FormData();
-    formData.append('matchid', this.matchDetails.MatchId);
-    formData.append('team1shortname', this.matchDetailsForBoard['team1Name']);
-
-    this.loginService.getRecentMatchData(body, matchData).subscribe(
+    // console.log(1)
+    // const body = {
+    //   MatchID: this.matchDetails.MatchId
+    // }
+    
+      const matchData = [
+        {
+          team1Score:21,
+            team2Score:0,
+            team1shortname:"HYD",
+            team2ShortName:"MI",
+            stadiumname:"",
+            matchid:175,
+            bowlername:"m",
+            bowlerover:0,
+            bowlerruns:0,
+            bowlerwickets:0,
+            bowlermaidens:0,
+            batsman1name:"a",
+            batsman2name:"b",
+            batsman1runs:0,
+            batsman2runs:3,
+            batsman1ballsfaced:3,
+            batsman2ballsfaced:2,
+            totalover:20,
+            currentover:0.3,
+            dismissaltype:"",
+            fieldername:"",
+            extraruntype:"",
+            currentoverrun:2,
+            innings:1,
+            team1Wickets:0,
+            team2Wickets:0,
+            strikerplayer:"a",
+            currentover_data:"24W561",
+            dismissalplayer:""
+        }
+      ]
+    // console.log(this.matchDetailsForBoard);
+    // const formData = new FormData();
+    // formData.append('matchid', this.matchDetails.MatchId);
+    // formData.append('team1shortname', this.matchDetailsForBoard['team1Name']);
+    const iplayerDataRequest: ImatchsenRequest = {
+      matchdata: JSON.stringify(matchData),
+    };
+    console.log(matchData);
+    // this.httpClient.post('http://snadblivescoreappapi.azurewebsites.net/api/LiveScore/Saverecentdata?matchdata', matchData).subscribe(status =>
+    //   console.log(status),
+    //   err => console.log('HTTP Error', err),
+    // );
+    this.loginService.SaveMatchData(iplayerDataRequest).subscribe(
       response => {
         console.log(response)
       });
@@ -492,6 +505,9 @@ export class PreviewPage implements OnInit {
     }else if(type==='nb'){
       modalData.title='No Ball';
     }
+
+    
+    
     this.matDialogRef =
       this.matDialog.open(ExtraScoreModalComponent, {
         data: modalData,

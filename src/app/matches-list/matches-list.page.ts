@@ -9,6 +9,9 @@ import { LoginService } from '../services/login.service';
   styleUrls: ['./matches-list.page.scss'],
 })
 export class MatchesListPage implements OnInit {
+  isFirst = true;
+  isSecond = false;
+  isThree = false;
   matchesList = [];
   constructor(
     private router: Router,
@@ -32,6 +35,10 @@ export class MatchesListPage implements OnInit {
   }
   startMatch(match) {
     this.router.navigate(['/start-match'], { queryParams: { isUpdate: true } });
+    this.loginService.setMatchDetails(JSON.stringify(match));
+  }
+  editPlayers(match) {
+    this.router.navigate(['/start-match'], { queryParams: { isSecond: true } });
     this.loginService.setMatchDetails(JSON.stringify(match));
   }
   updatelivescore() {

@@ -7,7 +7,8 @@
         <td>{{match.Matchname}}</td>
         <td>{{match.MatchStatus}}</td>
         <td (click)="startMatch(match)"><button class="btn start-btn pt-1 pb-1">Start</button></td>
-        <td><button class="btn start-btn pt-1 pb-1 pl-0.5" (click)="updatelivescore()">Update Live Score</button></td>
+        <td><button class="btn start-btn pt-1 pb-1 pl-0.5" (click)="updatelivescore()">Update Score</button></td>
+        <td><button class="btn start-btn pt-1 pb-1 pl-0.5" (click)="editPlayers(match)">Edit Players</button></td>
       </tr>
     </tbody>
   </table>

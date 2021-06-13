@@ -4,6 +4,7 @@
   <div class="d-flex mt-4 mb-4">
     <p *ngIf="modalData.title==='Wide Ball'" class="mr-1">WD <span class="mr-1">+</span></p>
     <p *ngIf="modalData.title==='No Ball'" class="mr-1">NB <span class="mr-1">+</span></p> 
+    <p *ngIf="modalData.title==='Wicket'" class="mr-1">W <span class="mr-1">+</span></p>
     <input type="number" class="col-sm-6" [(ngModel)]="scrore">
     <label class="col-sm-6">Runs</label>
   </div>
@@ -21,8 +22,78 @@
       <label class="pl-2">Leg Bye</label >
     </div>
   </div>
+  <br>
+  <div>
+    <label>Select Wicket</label>
+  <select class="detailsOption" (change)="openModal($event.target.value)">
+    <option value="">Select Option</option>
+    <option value="modal1" >Caught</option>
+    <option value="modal2">Bowled</option>
+    <option value="modal3"> Run-Out </option>
+    <option value="modal2">LBW</option>
+    <option value="modal2">Hit-Wicket</option>
+    <option value="modal2">Stump-Out</option>
+</select>
+</div>
+<br>
+<div>
+  <Label> Select Fielder</Label>
+  <select class="detailsOption" (change)="openModal($event.target.value)">
+    <!-- <option value="">Select Option</option> -->
+    <select class="w-50 select form-control form-control-sm">
+      <ng-container *ngIf="selectedInningType==='first'">
+      <option *ngFor="let player of bowlingPlayers"> {{player.PlayerName}} </option>
+    </ng-container>
+      <ng-container *ngIf="selectedInningType==='second'">
+        <option *ngFor="let bating of batingPlayers" [value]="bating.PlayerName">{{bating.PlayerName}}</option>
+      </ng-container>
+    </select>
+</select>
+</div>
+<br>
+<div>
+<Label> Select Outgoing Batsman</Label>
+  <select class="detailsOption" (change)="openModal($event.target.value)">
+    <ng-container *ngIf="selectedInningType==='first'">
+      <option *ngFor="let player of battingTeam"> {{player.PlayerName}} </option>
+</ng-container>
+<ng-container *ngIf="selectedInningType==='second'">
+  <option *ngFor="let bating of batingPlayers" [value]="bating.PlayerName">{{bating.PlayerName}}</option>
+</ng-container>
+</select>
+</div>
+<br>
+<div>
+  <Label> Select Next Batsman</Label>
+  <select class="detailsOption" (change)="openModal($event.target.value)">
+    <ng-container *ngIf="selectedInningType==='first'">
+      <option *ngFor="let player of battingTeam"> {{player.PlayerName}} </option>
+</ng-container>
+<ng-container *ngIf="selectedInningType==='second'">
+  <option *ngFor="let bating of batingPlayers" [value]="bating.PlayerName">{{bating.PlayerName}}</option>
+</ng-container>
+</select>
+</div>
+    <!-- <option value="">Select Option</option>
+    <option value="modal1" >A</option>
+    <option value="modal1" >B</option>
+    <option value="modal1" >C</option>
+    <option value="modal1" >D</option>
+    <option value="modal1" >E</option>
+    <option value="modal1" >F</option>
+    <option value="modal1" >G</option>
+    <option value="modal1" >H</option>
+    <option value="modal1" >I</option>
+    <option value="modal1" >J</option>
+    <option value="modal1" >K</option>
+    <option value="modal1" >L</option> -->
+<!-- </select>
+</div> -->
+
+ 
   <div class="d-flex">
-    <button type="button" class="col-sm-6 btn" (click)="closeModal()">Cancel</button>
-    <button type="button" class="col-sm-6 btn" (click)="saveData()">Ok</button>
+    <br> <br>
+    <ion-button type="button" color="primary" class="col-sm-6 btn" (click)="closeModal()">Cancel</ion-button>
+    <ion-button type="button" color="success" class="col-sm-6 btn" (click)="saveData()">Ok</ion-button>
   </div>
 </div>
