@@ -68,6 +68,43 @@ export interface IloginResponseData {
   UserName: string;
   EmailAddress: string;
 }
+export interface Imatchreqst {
+  matchid : string;
+}
+export interface ImatchsenRequest {
+  matchdata : string;
+}
+export interface Imatchresponse {
+ team1Score : string;
+ team2Score : string;
+ team1shortname : string; 
+ team2ShortName : string; 
+ stadiumname : string;
+ matchid : string; 
+ bowlername: string;
+ bowlerover : string;
+ bowlerruns : string;
+ bowlerwickets : string; 
+ bowlermaidens : string;
+ batsman1name : string,
+ batsman2name: string;
+ batsman1runs: string,
+ batsman2runs: string;
+batsman1ballsfaced : string;
+batsman2ballsfaced : string;
+totalover : string;
+currentover : string;
+dismissaltype : string;
+fieldername: string; 
+extraruntype : string; 
+currentoverrun : string; 
+innings : string;
+team1Wickets : string;
+team2Wickets : string;
+strikerplayer : string;
+currentover_data : string;
+dismissalplayer : string;
+}
 export interface IStorageService {
   setItem: (key: string, value: any) => void;
   getItem: (key: string) => string;

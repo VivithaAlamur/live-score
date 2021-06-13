@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ILoginMatches, ILoginResponse } from '../models/stumpsbails.interfaces';
+import { ILoginMatches, ILoginResponse,ImatchsenRequest,Imatchreqst } from '../models/stumpsbails.interfaces';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,6 +44,15 @@ export class LoginService {
   public GetBowlerdata(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'GetBowlerdata', body);
   }
+  //  public Geteditplayers(body: any): Observable<any> {
+  //    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Geteditplayers', body);
+  //  }
+  //  public Saveeditteam(body: any): Observable<any> {
+  //    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Saveeditteam', body);
+  //  }
+  // public getbowlerdata(body: any): Observable<any> {
+  //     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'getbowlerdata', body);
+  //   }
   public Tosswinnerteam(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Tosswinnerteam', body);
   }
@@ -56,11 +65,15 @@ export class LoginService {
   getTeamsBasedOnMatchId(body: any): Observable<any> {
     return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'getTeamsBasedOnMatchId', body);
   }
-  getRecentMatchData(body: any, matchData): Observable<any> {
-    return this.httpclient.post<ILoginResponse>(this.scoreBoardUrl + 'getrecentmatchdata?matchData=' + JSON.stringify(matchData), {});
+  getRecentMatchData(body: Imatchreqst): Observable<any> {
+    const formData = new FormData();
+    formData.append('matchid', body.matchid);
+    return this.httpclient.post<ILoginResponse>(this.scoreBoardUrl + 'getrecentmatchdata', formData);
   }
-  SaveMatchData(body: any): Observable<any> {
-    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Savematchdata', body);
+  SaveMatchData(body: ImatchsenRequest): Observable<any> {
+    const formData = new FormData();
+    formData.append('matchdata', body.matchdata);
+    return this.httpclient.post<ILoginResponse>(this.liveScoreUrl + 'Saverecentdata', formData);
   }
 }
 
