@@ -21,6 +21,82 @@ export class StartMatchPage implements OnInit {
   selectionToss = [
     { name: 'Bat' },
     { name: 'Bowl' }
+  ];
+  mappedPlayersListA=[];
+  mappingPlayersList=  [
+    {
+      PlayerName: 'Player1',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player2',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player3',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    }, {
+      PlayerName: 'Player4',
+      TeamName: ''
+      ,
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player5',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player6',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player7',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player8',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player9',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player10',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player11',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    },
+    {
+      PlayerName: 'Player12',
+      TeamName: '',
+      isMapped:false,
+      isMoved:false
+    }
+
   ]
   constructor(
     private loginService: LoginService,
@@ -48,6 +124,30 @@ export class StartMatchPage implements OnInit {
     })
 
   }
+  mapData(){
+    this.createMatchForm.playersListA=this.mappingPlayersList.filter(player=>{
+      if(player.isMapped){
+      player.isMoved=true;
+      }
+      return player.isMapped;
+    });
+    this.mappingPlayersList=this.mappingPlayersList.filter(player=>{
+      return !player.isMapped;
+    })
+    this.mappedPlayersListA=this.createMatchForm.playersListA;
+  }
+  unMapped(){
+    const data=this.mappedPlayersListA.filter(player=>{
+      if(player.isMapped){
+      player.isMoved=false;
+      }
+      return player.isMapped;
+    })
+    this.mappedPlayersListA=this.mappedPlayersListA.filter(player=>{
+      return player.isMapped;
+    });
+    this.mappingPlayersList=[...this.mappingPlayersList,...data]
+  }
   ngOnInit() {
     this.createMatchForm = {
       MatchName: null,
@@ -58,100 +158,125 @@ export class StartMatchPage implements OnInit {
       playersListA: [
         {
           PlayerName: 'Player1',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player2',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player3',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         }, {
           PlayerName: 'Player4',
           TeamName: ''
+          ,
+          isMapped:false
         },
         {
           PlayerName: 'Player5',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player6',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player7',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player8',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player9',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player10',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player11',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player12',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         }
 
       ],
       playersListB: [
         {
           PlayerName: 'Player1',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player2',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player3',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         }, {
           PlayerName: 'Player4',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player5',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player6',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player7',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player8',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player9',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player10',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player11',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         },
         {
           PlayerName: 'Player12',
-          TeamName: ''
+          TeamName: '',
+          isMapped:false
         }
       ],
     };
@@ -160,12 +285,14 @@ export class StartMatchPage implements OnInit {
     const formData = new FormData();
     if (this.createMatchForm.playersListA && this.createMatchForm.playersListA.length) {
       this.createMatchForm.playersListA.map(playerA => {
-        playerA.TeamName = this.createMatchForm.Team1
+        playerA.TeamName = this.createMatchForm.Team1;
+        playerA.isMapped=false;
       });
     }
     if (this.createMatchForm.playersListB && this.createMatchForm.playersListB.length) {
       this.createMatchForm.playersListB.map(playerB => {
-        playerB.TeamName = this.createMatchForm.Team2
+        playerB.TeamName = this.createMatchForm.Team2;
+        playerB.isMapped=false;
       });
     }
     const players = JSON.stringify([...this.createMatchForm.playersListA, ...this.createMatchForm.playersListB]);
